@@ -25,7 +25,7 @@ function panel_2d(string,color,Fontsize,X1,Y1,X2,Y2){
 	//draw texture according to the string//
 	for(var i =0;i < string.length; i++)
 	{
-	ccbDrawTextureRectangleWithAlpha("font//asc_"+i+".png", X1+(i*Fontsize), Y1, X1+(i*Fontsize)+Fontsize, Y1+Fontsize);
+	ccbDrawTextureRectangleWithAlpha("font//asc_"+string.charAt(i)+".png", X1+(i*Fontsize), Y1, X1+(i*Fontsize)+Fontsize, Y1+Fontsize);
 	
 	}
 	return;
