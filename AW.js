@@ -9,12 +9,25 @@ function onFrameDrawing()
  var mouseY = ccbGetMousePosY();
  var menubar = ccbDrawColoredRectangle(color(30,30,30,255), 0, 0, scrX, 32);
  var statusbar = ccbDrawColoredRectangle(color(48,48,48,255), 0, scrY-32, scrX, scrY);
- panel_2d(color(30,30,30,255),20,0,0,100,100);
+ panel_2d("0123",color(30,30,30,255),50,0,0,100,100);
 }
+
 // textbox overlay function // need to add a for loop for going through string and draw them on screen.
-function panel_2d(color,Fontsize,X1,Y1,X2,Y2){
+function panel_2d(string,color,Fontsize,X1,Y1,X2,Y2){
+	
+	
+	if (X2 << X1+(string.length*Fontsize)+Fontsize){
+		X2 += (Fontsize*string.length);
+	}
+	print (X2)
 	ccbDrawColoredRectangle(color,X1,Y1,X2,Y2);
-	ccbDrawTextureRectangleWithAlpha("font//asc_0.png", X1+1, Y1+1, X1+Fontsize, Y1+Fontsize);
+	
+	//draw texture according to the string//
+	for(var i =0;i < string.length; i++)
+	{
+	ccbDrawTextureRectangleWithAlpha("font//asc_"+i+".png", X1+(i*Fontsize), Y1, X1+(i*Fontsize)+Fontsize, Y1+Fontsize);
+	
+	}
 	return;
 	
 }
