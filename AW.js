@@ -29,14 +29,15 @@ function panel_2d(string,letter_spacing,color,hovercol,Fontsize,X1,Y1,X2,Y2){
 	{color = hovercol}
 	else{print(mouseX + "and" + (X1-(Fontsize/2)) + "and"+X2)}
 	ccbDrawColoredRectangle(color,X1-(Fontsize/2),Y1,X2,Y1+Y2);
-	
+	Y1 = Y1+(Fontsize/2);
 	//draw texture according to the string//
 	for(var i =0;i < string.length; i++)
 	{
 	if(isLowerCase(string.charAt(i))){
 		var strCase = "L_"
 	}
-    else{ strCase = ""};	
+    else{ strCase = ""};
+	
 	ccbDrawTextureRectangleWithAlpha("font//"+strCase+string.charAt(i)+".png", X1+(i*Fontsize)+letter_spacing, Y1, X1+(i*Fontsize)+Fontsize, Y1+Fontsize+(Fontsize/2));
 	
 	}
