@@ -25,7 +25,7 @@ function panel_2d(string,letter_spacing,color,hovercol,Fontsize,X1,Y1,X2,Y2){
 		X2 += (Fontsize*string.length);
 	}
 	//hover effects testing
-	if(mouseX > (X1-(Fontsize/2)) && mouseX < X2)
+	if(mouseX > (X1-(Fontsize/2)) && mouseX < X2 && mouseY > Y1 && mouseY < Y1+Y2)
 	{color = hovercol}
 	else{print(mouseX + "and" + (X1-(Fontsize/2)) + "and"+X2)}
 	ccbDrawColoredRectangle(color,X1-(Fontsize/2),Y1,X2,Y1+Y2);
