@@ -15,12 +15,22 @@ function fileMenu()
 {
 	panel_2d("",0,color(30,30,30,150),color(30,30,30,150),"","ccbUnregisterOnFrameEvent(fileMenu)",0,20,30,300,500);
 }
-
-function fileMenuLabel()
+function editMenu()
 {
-	panel_2d("File",0,color(30,30,30,255),color(20,20,20,255),"ccbRegisterOnFrameEvent(fileMenu)","",10,20,0,30,32);
+	panel_2d("",0,color(30,30,30,150),color(30,30,30,150),"","ccbUnregisterOnFrameEvent(editMenu)",0,80,30,360,500);
 }
-ccbRegisterOnFrameEvent(fileMenuLabel);
+
+function FileMenuLabel()
+{
+	panel_2d("File",0,color(30,30,30,255),color(86,128,194,255),"ccbRegisterOnFrameEvent(fileMenu)","",10,20,0,30,32);
+}
+ccbRegisterOnFrameEvent(FileMenuLabel);
+function EditMenuLabel()
+{
+		panel_2d("Edit",0,color(30,30,30,255),color(86,128,194,255),"ccbRegisterOnFrameEvent(editMenu)","",10,80,0,90,32);
+}
+ccbRegisterOnFrameEvent(EditMenuLabel);
+
 function panel_2d(string,letter_spacing,color,hovercol,funct1,funct2,Fontsize,X1,Y1,X2,Y2){
 	
 	var mouseX = ccbGetMousePosX();
