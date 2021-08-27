@@ -2,35 +2,32 @@ var scrX = ccbGetScreenWidth();
 var scrY = ccbGetScreenHeight();
 
 ccbSetWorkingDirectory("AW//");
-var UI = {};
-UI.Panel = { panelbuffer: [] };
-
-/*function onFrameDrawing()
+function onFrameDrawing()
 {
    // draw a red, transparent rectangle at the position of the mouse
  var mouseX = ccbGetMousePosX();
  var mouseY = ccbGetMousePosY();
  var menubar = ccbDrawColoredRectangle(color(30,30,30,255), 0, 0, scrX, 32);
  var statusbar = ccbDrawColoredRectangle(color(48,48,48,255), 0, scrY-32, scrX, scrY);
-//panel_2d("[THE QUICK BROWN FOX + {JUMPS OVER} - (THE LAZY DOG) = 0123456789]",0,color(30,30,30,255),16,20,20,30,40);
-
+ panel_2d("[THE QUICK BROWN FOX + {JUMPS OVER} - (THE LAZY DOG) = 0123456789]",0,color(30,30,30,255),color(20,20,20,255),16,20,20,30,40);
 }
-ccbRegisterOnFrameEvent(onFrameDrawing);*/
+ccbRegisterOnFrameEvent(onFrameDrawing);
 // textbox overlay function // need to add a for loop for going through string and draw them on screen.
 
 
-//this is new untested code.
 
-panel_2d("menu",true,"[THE QUICK BROWN FOX + {JUMPS OVER} - (THE LAZY DOG) = 0123456789]",0,color(30,30,30,255),16,20,20,30,40);
-
-
-
-function panel_2d(name,bool,string,letter_spacing,color,Fontsize,X1,Y1,X2,Y2){
-
-	function name(){
+function panel_2d(string,letter_spacing,color,hovercol,Fontsize,X1,Y1,X2,Y2){
+	
+	var mouseX = ccbGetMousePosX();
+	var mouseY = ccbGetMousePosY();
+	
 	if (X2 << X1+(string.length*Fontsize)+Fontsize){
 		X2 += (Fontsize*string.length);
 	}
+	//hover effects testing
+	if(mouseX > (X1-(Fontsize/2)) && mouseX < X2)
+	{color = hovercol}
+	else{print(mouseX + "and" + (X1-(Fontsize/2)) + "and"+X2)}
 	ccbDrawColoredRectangle(color,X1-(Fontsize/2),Y1,X2,Y1+Y2);
 	
 	//draw texture according to the string//
@@ -43,9 +40,6 @@ function panel_2d(name,bool,string,letter_spacing,color,Fontsize,X1,Y1,X2,Y2){
 	ccbDrawTextureRectangleWithAlpha("font//"+strCase+string.charAt(i)+".png", X1+(i*Fontsize)+letter_spacing, Y1, X1+(i*Fontsize)+Fontsize, Y1+Fontsize+(Fontsize/2));
 	
 	}
-	}
-	if (bool == true){ccbRegisterOnFrameEvent(eval(name));}
-	else {ccbUnregisterOnFrameEvent(name);}
 	return;
 	
 }
