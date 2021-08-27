@@ -5,18 +5,23 @@ ccbSetWorkingDirectory("AW//");
 function onFrameDrawing()
 {
    // draw a red, transparent rectangle at the position of the mouse
- var mouseX = ccbGetMousePosX();
- var mouseY = ccbGetMousePosY();
  var menubar = ccbDrawColoredRectangle(color(30,30,30,255), 0, 0, scrX, 32);
  var statusbar = ccbDrawColoredRectangle(color(48,48,48,255), 0, scrY-32, scrX, scrY);
- panel_2d("[THE QUICK BROWN FOX + {JUMPS OVER} - (THE LAZY DOG) = 0123456789]",0,color(30,30,30,255),color(20,20,20,255),16,20,20,30,40);
+ 
 }
 ccbRegisterOnFrameEvent(onFrameDrawing);
 // textbox overlay function // need to add a for loop for going through string and draw them on screen.
+function fileMenu()
+{
+	panel_2d("",0,color(30,30,30,150),color(30,30,30,150),"","ccbUnregisterOnFrameEvent(fileMenu)",0,20,30,300,500);
+}
 
-
-
-function panel_2d(string,letter_spacing,color,hovercol,Fontsize,X1,Y1,X2,Y2){
+function fileMenuLabel()
+{
+	panel_2d("File",0,color(30,30,30,255),color(20,20,20,255),"ccbRegisterOnFrameEvent(fileMenu)","",10,20,0,30,32);
+}
+ccbRegisterOnFrameEvent(fileMenuLabel);
+function panel_2d(string,letter_spacing,color,hovercol,funct1,funct2,Fontsize,X1,Y1,X2,Y2){
 	
 	var mouseX = ccbGetMousePosX();
 	var mouseY = ccbGetMousePosY();
@@ -26,13 +31,14 @@ function panel_2d(string,letter_spacing,color,hovercol,Fontsize,X1,Y1,X2,Y2){
 	}
 	//hover effects testing
 	if(mouseX > (X1-(Fontsize/2)) && mouseX < X2 && mouseY > Y1 && mouseY < Y1+Y2)
-	{color = hovercol}
-	else{print(mouseX + "and" + (X1-(Fontsize/2)) + "and"+X2)}
+	{color = hovercol; eval(funct1)}
+	else{eval(funct2)}
 	ccbDrawColoredRectangle(color,X1-(Fontsize/2),Y1,X2,Y1+Y2);
 	Y1 = Y1+(Fontsize/2);
 	//draw texture according to the string//
 	for(var i =0;i < string.length; i++)
 	{
+	
 	if(isLowerCase(string.charAt(i))){
 		var strCase = "L_"
 	}
