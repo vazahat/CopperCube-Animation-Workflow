@@ -12,7 +12,7 @@ ccbSetWorkingDirectory("AW//");
   Color:{r: 30, g: 30, b: 30, a: 255},
   HoverColor:{r: 86, g: 128, b: 194, a: 255},
   OnHoverAction: "FileMenuPanel.Draw();FileMenuItem.Draw()",
-  NonHoverAction: "",
+  NonHoverAction: "FileMenuPanel.Draw();FileMenuItem.Draw()",
   PosX: 20,
   PosY: 0,
   Width: 30,
@@ -57,13 +57,14 @@ var FileMenuItem = { // UI File Menu label and handler
   Textsize:10,
   Color:{r: 30, g: 30, b: 30, a: 255},
   HoverColor:{r: 86, g: 128, b: 194, a: 255},
-  OnHoverAction: "EditMenuPanel.Draw()",
+  OnHoverAction: function(){var mouseX = ccbGetMousePosX(); var mouseY = ccbGetMousePosY(); if(mouseX > (this.PosX-(this.Textsize/2)) && mouseX < this.Width+(this.Textsize*this.Text.length) && mouseY > this.PosY && mouseY < this.PosY+this.Height) {  /*here goes the command for hover*/ EditMenuPanel.Draw()}}, 	// No Eval Hover Effect
   NonHoverAction: "",
+  test:"",
   PosX: 80,
   PosY: 0,
   Width: 90,
   Height: 32, // Tried using this.property name but its not working in the function when calling the pane.draw() inside onframeEvent.
-  Draw: function (){return panel_2d(this.Text,this.TextSpacing,color(this.Color.r,this.Color.g,this.Color.b,this.Color.a),color(this.HoverColor.r,this.HoverColor.g,this.HoverColor.b,this.HoverColor.a),this.OnHoverAction,this.NonHoverAction,this.Textsize,this.PosX,this.PosY,this.Width,this.Height)}
+  Draw: function (){return panel_2d(this.Text,this.TextSpacing,color(this.Color.r,this.Color.g,this.Color.b,this.Color.a),color(this.HoverColor.r,this.HoverColor.g,this.HoverColor.b,this.HoverColor.a),this.OnHoverAction,this.test,this.Textsize,this.PosX,this.PosY,this.Width,this.Height), this.OnHoverAction()}
 }
 
 var EditMenuPanel = { // UI File Menu label and handler 
