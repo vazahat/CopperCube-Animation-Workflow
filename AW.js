@@ -5,23 +5,24 @@ ccbSetWorkingDirectory("AW//");
 function onFrameDrawing()
 {
    // draw a red, transparent rectangle at the position of the mouse
- var menubar = ccbDrawColoredRectangle(color(30,30,30,255), 0, 0, scrX, 32);
+// var menubar = ccbDrawColoredRectangle(color(30,30,30,255), 0, 0, scrX, 32);
  var statusbar = ccbDrawColoredRectangle(color(48,48,48,255), 0, scrY-32, scrX, scrY);
  
 }
-
+var me = this;
+//test object
  var panel = {
-  Name:"John",
   Visibility: "true",
-  Text:"",
-  Textsize:16,
-  Color:(30,30,30,150),
-  HoverColor:(255,0,0,100),
-  PosX: 10,
-  PosY: 10,
+  Text:"File",
+  TextSpacing:0,
+  Textsize:10,
+  Color:{r: 255, g: 0, b: 0, a: 255},
+  HoverColor:{r: 0, g: 0, b: 0, a: 255},
+  PosX: 20,
+  PosY: 0,
   Width: 10,
-  Height: 20,
-  Draw: panel_2d(this.Name,this.Textsize,this.Color,this.HoverColor,"","",this.Textsize,this.PosX,this.PosY,this.PosX+this.Width,this.PosY+this.height)
+  Height: 32,
+  Draw: function(){return panel_2d(panel.Text,panel.TextSpacing,color(panel.Color.r,panel.Color.g,panel.Color.b,panel.Color.a),color(panel.HoverColor.r,panel.HoverColor.g,panel.HoverColor.b,panel.HoverColor.a),"","",10,20,0,30,32)}
 }
 ccbRegisterOnFrameEvent(onFrameDrawing);
 // textbox overlay function // need to add a for loop for going through string and draw them on screen.
@@ -35,14 +36,15 @@ function fileMenuItem1()
 }
 function editMenu()
 {
-	panel_2d("",0,color(30,30,30,150),color(30,30,30,150),"","ccbUnregisterOnFrameEvent(editMenu)",0,80,30,360,500);
+	panel_2d("",0,color(30,30,30,150),color(30,30,30,150),"","ccbUnregisterOnFrameEvent(panel.Draw)",0,80,30,360,500);
 }
 
 function FileMenuLabel()
 {
-	panel_2d("File",0,color(30,30,30,255),color(86,128,194,255),"ccbRegisterOnFrameEvent(fileMenu);ccbRegisterOnFrameEvent(fileMenuItem1)","ccbUnregisterOnFrameEvent(fileMenu);ccbUnregisterOnFrameEvent(fileMenuItem1)",10,20,0,30,32);
+	//panel.Draw();
+	//panel_2d("File",0,color(30,30,30,255),color(86,128,194,255),"ccbRegisterOnFrameEvent(fileMenu);ccbRegisterOnFrameEvent(fileMenuItem1)","ccbUnregisterOnFrameEvent(fileMenu);ccbUnregisterOnFrameEvent(fileMenuItem1)",10,20,0,30,32);
 }
-ccbRegisterOnFrameEvent(FileMenuLabel);
+ccbRegisterOnFrameEvent(panel.Draw);
 function EditMenuLabel()
 {
 		panel_2d("Edit",0,color(30,30,30,255),color(86,128,194,255),"ccbRegisterOnFrameEvent(editMenu)","",10,80,0,90,32);
@@ -60,7 +62,7 @@ function panel_2d(string,letter_spacing,color,hovercol,funct1,funct2,Fontsize,X1
 	}
 	//hover effects testing
 	if(mouseX > (X1-(Fontsize/2)) && mouseX < X2 && mouseY > Y1 && mouseY < Y1+Y2)
-	{color = hovercol; eval(funct1)}
+	{color = hovercol;eval(funct1)}
 	else{eval(funct2)}
 	ccbDrawColoredRectangle(color,X1-(Fontsize/2),Y1,X2,Y1+Y2);
 	Y1 = Y1+(Fontsize/2);
