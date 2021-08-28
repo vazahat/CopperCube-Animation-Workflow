@@ -9,11 +9,29 @@ function onFrameDrawing()
  var statusbar = ccbDrawColoredRectangle(color(48,48,48,255), 0, scrY-32, scrX, scrY);
  
 }
+
+ var panel = {
+  Name:"John",
+  Visibility: "true",
+  Text:"",
+  Textsize:16,
+  Color:(30,30,30,150),
+  HoverColor:(255,0,0,100),
+  PosX: 10,
+  PosY: 10,
+  Width: 10,
+  Height: 20,
+  Draw: panel_2d(this.Name,this.Textsize,this.Color,this.HoverColor,"","",this.Textsize,this.PosX,this.PosY,this.PosX+this.Width,this.PosY+this.height)
+}
 ccbRegisterOnFrameEvent(onFrameDrawing);
 // textbox overlay function // need to add a for loop for going through string and draw them on screen.
 function fileMenu()
 {
-	panel_2d("",0,color(30,30,30,150),color(30,30,30,150),"","ccbUnregisterOnFrameEvent(fileMenu)",0,20,30,300,500);
+	panel_2d("",0,color(30,30,30,150),color(30,30,30,150),"","",0,20,30,300,500);
+}
+function fileMenuItem1()
+{
+	panel_2d("About",0,color(30,30,30,0),color(86,128,194,255),"","",10,40,170,60,32);
 }
 function editMenu()
 {
@@ -22,7 +40,7 @@ function editMenu()
 
 function FileMenuLabel()
 {
-	panel_2d("File",0,color(30,30,30,255),color(86,128,194,255),"ccbRegisterOnFrameEvent(fileMenu)","",10,20,0,30,32);
+	panel_2d("File",0,color(30,30,30,255),color(86,128,194,255),"ccbRegisterOnFrameEvent(fileMenu);ccbRegisterOnFrameEvent(fileMenuItem1)","ccbUnregisterOnFrameEvent(fileMenu);ccbUnregisterOnFrameEvent(fileMenuItem1)",10,20,0,30,32);
 }
 ccbRegisterOnFrameEvent(FileMenuLabel);
 function EditMenuLabel()
@@ -30,6 +48,7 @@ function EditMenuLabel()
 		panel_2d("Edit",0,color(30,30,30,255),color(86,128,194,255),"ccbRegisterOnFrameEvent(editMenu)","",10,80,0,90,32);
 }
 ccbRegisterOnFrameEvent(EditMenuLabel);
+
 
 function panel_2d(string,letter_spacing,color,hovercol,funct1,funct2,Fontsize,X1,Y1,X2,Y2){
 	
