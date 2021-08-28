@@ -2,56 +2,100 @@ var scrX = ccbGetScreenWidth();
 var scrY = ccbGetScreenHeight();
 
 ccbSetWorkingDirectory("AW//");
-function onFrameDrawing()
-{
-   // draw a red, transparent rectangle at the position of the mouse
-// var menubar = ccbDrawColoredRectangle(color(30,30,30,255), 0, 0, scrX, 32);
- var statusbar = ccbDrawColoredRectangle(color(48,48,48,255), 0, scrY-32, scrX, scrY);
- 
-}
-var me = this;
+// define all Ui Elemets( panels, buttons, Items, here as objects)//
+
 //test object
- var panel = {
-  Visibility: "true",
+ var FileMenuLabel = { // UI File Menu label and handler 
   Text:"File",
   TextSpacing:0,
   Textsize:10,
-  Color:{r: 255, g: 0, b: 0, a: 255},
-  HoverColor:{r: 0, g: 0, b: 0, a: 255},
+  Color:{r: 30, g: 30, b: 30, a: 255},
+  HoverColor:{r: 86, g: 128, b: 194, a: 255},
+  OnHoverAction: "FileMenuPanel.Draw();FileMenuItem.Draw()",
+  NonHoverAction: "",
   PosX: 20,
   PosY: 0,
-  Width: 10,
-  Height: 32,
-  Draw: function(){return panel_2d(panel.Text,panel.TextSpacing,color(panel.Color.r,panel.Color.g,panel.Color.b,panel.Color.a),color(panel.HoverColor.r,panel.HoverColor.g,panel.HoverColor.b,panel.HoverColor.a),"","",10,20,0,30,32)}
+  Width: 30,
+  Height: 32, // Tried using this.property name but its not working in the function when calling the pane.draw() inside onframeEvent.
+  Draw: function (){return panel_2d(this.Text,this.TextSpacing,color(this.Color.r,this.Color.g,this.Color.b,this.Color.a),color(this.HoverColor.r,this.HoverColor.g,this.HoverColor.b,this.HoverColor.a),this.OnHoverAction,this.NonHoverAction,this.Textsize,this.PosX,this.PosY,this.Width,this.Height)}
+}
+
+var FileMenuPanel = { // UI File Menu label and handler 
+  Text:"",
+  TextSpacing:0,
+  Textsize:0,
+  Color:{r: 30, g: 30, b: 30, a: 150},
+  HoverColor:{r: 30, g: 30, b: 30, a: 150},
+  OnHoverAction: "",
+  NonHoverAction: "",
+  PosX: 20,
+  PosY: 30,
+  Width: 300,
+  Height: 500, // Tried using this.property name but its not working in the function when calling the pane.draw() inside onframeEvent.
+  Draw: function (){return panel_2d(this.Text,this.TextSpacing,color(this.Color.r,this.Color.g,this.Color.b,this.Color.a),color(this.HoverColor.r,this.HoverColor.g,this.HoverColor.b,this.HoverColor.a),this.OnHoverAction,this.NonHoverAction,this.Textsize,this.PosX,this.PosY,this.Width,this.Height)}
+}
+
+var FileMenuItem = { // UI File Menu label and handler 
+  Text:"About",
+  TextSpacing:0,
+  Textsize:10,
+  Color:{r: 30, g: 30, b: 30, a: 0},
+  HoverColor:{r: 86, g: 128, b: 194, a: 255},
+  OnHoverAction: "",
+  NonHoverAction: "",
+  PosX: 40,
+  PosY: 170,
+  Width: 60,
+  Height: 32, // Tried using this.property name but its not working in the function when calling the pane.draw() inside onframeEvent.
+  Draw: function (){return panel_2d(this.Text,this.TextSpacing,color(this.Color.r,this.Color.g,this.Color.b,this.Color.a),color(this.HoverColor.r,this.HoverColor.g,this.HoverColor.b,this.HoverColor.a),this.OnHoverAction,this.NonHoverAction,this.Textsize,this.PosX,this.PosY,this.Width,this.Height)}
+}
+
+// second test menu item.test object
+ var EditMenuLabel = { // UI File Menu label and handler 
+  Text:"Edit",
+  TextSpacing:0,
+  Textsize:10,
+  Color:{r: 30, g: 30, b: 30, a: 255},
+  HoverColor:{r: 86, g: 128, b: 194, a: 255},
+  OnHoverAction: "EditMenuPanel.Draw()",
+  NonHoverAction: "",
+  PosX: 80,
+  PosY: 0,
+  Width: 90,
+  Height: 32, // Tried using this.property name but its not working in the function when calling the pane.draw() inside onframeEvent.
+  Draw: function (){return panel_2d(this.Text,this.TextSpacing,color(this.Color.r,this.Color.g,this.Color.b,this.Color.a),color(this.HoverColor.r,this.HoverColor.g,this.HoverColor.b,this.HoverColor.a),this.OnHoverAction,this.NonHoverAction,this.Textsize,this.PosX,this.PosY,this.Width,this.Height)}
+}
+
+var EditMenuPanel = { // UI File Menu label and handler 
+  Text:"",
+  TextSpacing:0,
+  Textsize:0,
+  Color:{r: 30, g: 30, b: 30, a: 150},
+  HoverColor:{r: 30, g: 30, b: 30, a: 150},
+  OnHoverAction: "",
+  NonHoverAction: "",
+  PosX: 80,
+  PosY: 30,
+  Width: 360,
+  Height: 500, // Tried using this.property name but its not working in the function when calling the pane.draw() inside onframeEvent.
+  Draw: function (){return panel_2d(this.Text,this.TextSpacing,color(this.Color.r,this.Color.g,this.Color.b,this.Color.a),color(this.HoverColor.r,this.HoverColor.g,this.HoverColor.b,this.HoverColor.a),this.OnHoverAction,this.NonHoverAction,this.Textsize,this.PosX,this.PosY,this.Width,this.Height)}
+}
+
+
+// register single frame event and draw all the necessary elements.
+function onFrameDrawing()
+{
+ var menubar = ccbDrawColoredRectangle(color(30,30,30,255), 0, 0, scrX, 32);
+ var statusbar = ccbDrawColoredRectangle(color(48,48,48,255), 0, scrY-32, scrX, scrY);
+ FileMenuLabel.Draw();
+ EditMenuLabel.Draw();
 }
 ccbRegisterOnFrameEvent(onFrameDrawing);
-// textbox overlay function // need to add a for loop for going through string and draw them on screen.
-function fileMenu()
-{
-	panel_2d("",0,color(30,30,30,150),color(30,30,30,150),"","",0,20,30,300,500);
-}
-function fileMenuItem1()
-{
-	panel_2d("About",0,color(30,30,30,0),color(86,128,194,255),"","",10,40,170,60,32);
-}
-function editMenu()
-{
-	panel_2d("",0,color(30,30,30,150),color(30,30,30,150),"","ccbUnregisterOnFrameEvent(panel.Draw)",0,80,30,360,500);
-}
-
-function FileMenuLabel()
-{
-	//panel.Draw();
-	//panel_2d("File",0,color(30,30,30,255),color(86,128,194,255),"ccbRegisterOnFrameEvent(fileMenu);ccbRegisterOnFrameEvent(fileMenuItem1)","ccbUnregisterOnFrameEvent(fileMenu);ccbUnregisterOnFrameEvent(fileMenuItem1)",10,20,0,30,32);
-}
-ccbRegisterOnFrameEvent(panel.Draw);
-function EditMenuLabel()
-{
-		panel_2d("Edit",0,color(30,30,30,255),color(86,128,194,255),"ccbRegisterOnFrameEvent(editMenu)","",10,80,0,90,32);
-}
-ccbRegisterOnFrameEvent(EditMenuLabel);
 
 
+
+
+//Functions that deal with drawing of UI elements  and color conversions and all//
 function panel_2d(string,letter_spacing,color,hovercol,funct1,funct2,Fontsize,X1,Y1,X2,Y2){
 	
 	var mouseX = ccbGetMousePosX();
