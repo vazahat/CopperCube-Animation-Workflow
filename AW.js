@@ -63,7 +63,7 @@ element2d.prototype.isMouseOver = function(){
 	
 	var mouseX = ccbGetMousePosX();
 	var mouseY = ccbGetMousePosY();
-	
+
 
 	if(mouseX > (this.X1-(this.fontSize/2)) && mouseX < this.X2+(this.fontSize*this.text.length) && mouseY > this.Y1 && mouseY < this.Y1+this.Y2)
 	 {  
@@ -75,6 +75,7 @@ element2d.prototype.isMouseOver = function(){
 	 return hover;
 
 }
+
 
 
 // START FUNCTION: Drawing elements//
