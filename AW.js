@@ -1,6 +1,8 @@
 ccbSetWorkingDirectory("AW//");
 var scrX = ccbGetScreenWidth();
 var scrY = ccbGetScreenHeight();
+mouseDownL = null;
+mouseDownR = null;
 var element2dBuffer = [];
 e2dFrameEvent = function(){
 	for(var i = 0; i < element2dBuffer.length; i++){
@@ -10,6 +12,7 @@ e2dFrameEvent = function(){
 }
 
 var primaryBtnCol = color(30,30,30,0);
+var primaryPanelCol = color(30,30,30,150);
 var secondaryBtnCol = color(86,128,194,255);
 
 
@@ -63,50 +66,59 @@ element2d.prototype.isMouseOver = function(){
 	
 	var mouseX = ccbGetMousePosX();
 	var mouseY = ccbGetMousePosY();
-
+	var bool   = null;
 
 	if(mouseX > (this.X1-(this.fontSize/2)) && mouseX < this.X2+(this.fontSize*this.text.length) && mouseY > this.Y1 && mouseY < this.Y1+this.Y2)
 	 {  
 	  this.NormalColor = this.onHoverColor;
-	  var hover = true;
-	  if (element2dBuffer.mouseDownL){print("aloha")};
+	  bool= true;
+	
 	 }
-	 else{this.NormalColor = this.panelColor; hover = false; if (!element2dBuffer.mouseDownL){print("Ciao")};}
+	 else{this.NormalColor = this.panelColor; bool = false; }
 	 
-	 return hover;
+	 return bool;
 
 }
-
+var FileMenuPanel = undefined;
+var FileMenuItem1 = undefined;
 //mouseDownFunction
 ccbRegisterMouseDownEvent("functionMouseDown");
 ccbRegisterMouseUpEvent("functionMouseUp");
 function functionMouseDown (click){
 	// print(click);
 	if(click == 0){
-		element2dBuffer.mouseDownL = true;
+		mouseDownL = true;
+		if(FileMenuLabel.isMouseOver() || FileMenuPanel.isMouseOver() )
+		{
+		if( FileMenuPanel == undefined){ FileMenuPanel = new element2d("", 0,primaryPanelCol,primaryPanelCol,10,20,33,300,500);}
+		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d("About", 1,primaryBtnCol,secondaryBtnCol,10,(FileMenuPanel.X2/2)-FileMenuPanel.X1,FileMenuPanel.Y2/10,(FileMenuPanel.X2/2)-FileMenuPanel.X1+10,32);}
+
+		}
+		else { var index = element2dBuffer.indexOf(FileMenuPanel); if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined} }
 	}
 
 	if(click == 1){
-		element2dBuffer.mouseDownR = true;
+		mouseDownR = true;
 	}
 
 
 }
 function functionMouseUp (click){
 	if(click == 0) {
-		element2dBuffer.mouseDownL = false;
+		mouseDownL = false;
 	}
 
 	if(click == 1){
-		element2dBuffer.mouseDownR = false;
+		mouseDownR = false;
 	}
 }
 
 // START FUNCTION: Drawing elements//
+//element2d = function(text, textSpacing, panelColor, onHoverColor, fontSize, X1, Y1, X2, Y2){
 var Menubar = new element2d("", 0,color(30,30,30,255),color(30,30,30,255),10,0,0,scrX,32);
-var Statusbar = new element2d("", 0,color(48,48,48,255),color(30,30,30,255),10,0,scrY-32,scrX,scrY);
+var Statusbar = new element2d("", 0,color(48,48,48,255),color(48,48,48,255),10,0,scrY-32,scrX,scrY);
 var FileMenuLabel = new element2d("File", 0,primaryBtnCol,secondaryBtnCol,10,20,0,30,32);
-var FileMenuPanel = new element2d("", 0,color(30,30,30,150),color(30,30,30,150),10,20,33,300,500);
+
 
 
 
