@@ -69,14 +69,38 @@ element2d.prototype.isMouseOver = function(){
 	 {  
 	  this.NormalColor = this.onHoverColor;
 	  var hover = true;
+	  if (element2dBuffer.mouseDownL){print("aloha")};
 	 }
-	 else{this.NormalColor = this.panelColor; hover = false}
-
+	 else{this.NormalColor = this.panelColor; hover = false; if (!element2dBuffer.mouseDownL){print("Ciao")};}
+	 
 	 return hover;
 
 }
 
+//mouseDownFunction
+ccbRegisterMouseDownEvent("functionMouseDown");
+ccbRegisterMouseUpEvent("functionMouseUp");
+function functionMouseDown (click){
+	// print(click);
+	if(click == 0){
+		element2dBuffer.mouseDownL = true;
+	}
 
+	if(click == 1){
+		element2dBuffer.mouseDownR = true;
+	}
+
+
+}
+function functionMouseUp (click){
+	if(click == 0) {
+		element2dBuffer.mouseDownL = false;
+	}
+
+	if(click == 1){
+		element2dBuffer.mouseDownR = false;
+	}
+}
 
 // START FUNCTION: Drawing elements//
 var Menubar = new element2d("", 0,color(30,30,30,255),color(30,30,30,255),10,0,0,scrX,32);
@@ -84,7 +108,6 @@ var Statusbar = new element2d("", 0,color(48,48,48,255),color(30,30,30,255),10,0
 var FileMenuLabel = new element2d("File", 0,primaryBtnCol,secondaryBtnCol,10,20,0,30,32);
 var FileMenuPanel = new element2d("", 0,color(30,30,30,150),color(30,30,30,150),10,20,33,300,500);
 
-// child.draw();  // this will print the correct value
 
 
 // Draw Function
