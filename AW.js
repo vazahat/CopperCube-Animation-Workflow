@@ -81,6 +81,12 @@ element2d.prototype.isMouseOver = function(){
 }
 var FileMenuPanel = undefined;
 var FileMenuItem1 = undefined;
+var FileMenuItem2 = undefined;
+var FileMenuItem3 = undefined;
+var FileMenuItem4 = undefined;
+var FileMenuItem5 = undefined;
+var FileMenuItem6 = undefined;
+
 //mouseDownFunction
 ccbRegisterMouseDownEvent("functionMouseDown");
 ccbRegisterMouseUpEvent("functionMouseUp");
@@ -90,11 +96,17 @@ function functionMouseDown (click){
 		mouseDownL = true;
 		if(FileMenuLabel.isMouseOver() || FileMenuPanel.isMouseOver() )
 		{
+			
 		if( FileMenuPanel == undefined){ FileMenuPanel = new element2d("", 0,primaryPanelCol,primaryPanelCol,10,20,33,300,500);}
-		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d("About", 1,primaryBtnCol,secondaryBtnCol,10,(FileMenuPanel.X2/2)-FileMenuPanel.X1,FileMenuPanel.Y2/10,(FileMenuPanel.X2/2)-FileMenuPanel.X1+10,32);}
-
+		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d("New", 1,primaryBtnCol,secondaryBtnCol,10,(FileMenuPanel.X2/2)-FileMenuPanel.X1,FileMenuPanel.Y2/10,(FileMenuPanel.X2/2)-FileMenuPanel.X1+10,32);}
+		var itemindex = element2dBuffer.indexOf(FileMenuItem1);
+		
+		if( FileMenuItem2 == undefined){ FileMenuItem2 = new element2d("Open", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
+		if( FileMenuItem3 == undefined){ FileMenuItem3 = new element2d("Save", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
 		}
-		else { var index = element2dBuffer.indexOf(FileMenuPanel); if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined} }
+
+		
+		else { var index = element2dBuffer.indexOf(FileMenuPanel); if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined; FileMenuItem2 = undefined; FileMenuItem3 = undefined;} }
 	}
 
 	if(click == 1){
