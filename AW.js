@@ -40,17 +40,17 @@ var primaryPanelCol = color(30,30,30,150);
 var secondaryBtnCol = color(86,128,194,255);
 
 
-element2d = function(text, textSpacing, panelColor, onHoverColor, fontSize, X1, Y1, X2, Y2){
-	this.text = text;
-	this.textSpacing = textSpacing;
-	this.fontSize = fontSize;
-	this.panelColor = panelColor;
-	this.onHoverColor = onHoverColor;
-	this.NormalColor = panelColor;
-	this.X1 = X1;
-	this.X2 = X2;
-	this.Y1 = Y1;
-	this.Y2 = Y2;
+element2d = function(object){
+	this.text = (object.text) ? object.text : "";
+	this.textSpacing = (object.textSpacing) ? object.textSpacing : 0;
+	this.fontSize = (object.fontSize) ? object.fontSize : 10;
+	this.panelColor = (object.panelColor) ? object.panelColor : primaryBtnCol;
+	this.onHoverColor = (object.onHoverColor) ? object.onHoverColor : secondaryBtnCol;
+	this.NormalColor = (object.panelColor) ? object.panelColor : primaryPanelCol;
+	this.X1 = (object.X1) ? object.X1 : 0 ;
+	this.X2 = (object.X2) ? object.X2 : 50;
+	this.Y1 = (object.Y1) ? object.Y1 : 0;
+	this.Y2 = (object.Y2) ? object.Y2 : 32;
 	this.bufferIndex = element2dBuffer.push(this) - 1;
 }
 element2d.prototype.onFrameEvent = function(){
@@ -151,11 +151,11 @@ ccbRegisterOnFrameEvent(e2dFrameEvent);
 
 // START FUNCTION: Drawing elements//
 //element2d = function(text, textSpacing, panelColor, onHoverColor, fontSize, X1, Y1, X2, Y2){
-var Menubar = new element2d("", 0,color(30,30,30,255),color(30,30,30,255),10,0,0,scrX,32);
-var Statusbar = new element2d("", 0,color(48,48,48,255),color(48,48,48,255),10,0,scrY-32,scrX,scrY);
-var StatusText = new element2d("CC-Animation Workflow", 0,color(48,48,48,0),color(48,48,48,0),10,10,Statusbar.Y1+8,scrX,scrY);
+var Menubar = new element2d({X2:scrX, panelColor: color(30,30,30,255), onHoverColor: color(30,30,30,255)});
+var Statusbar = new element2d({panelColor: color(48,48,48,255), onHoverColor: color(48,48,48,255), Y1: scrY-32, X2: scrX, Y2: scrY});
+
 // creating a menu item
-var FileMenuLabel = new element2d("File", 0,primaryBtnCol,secondaryBtnCol,10,20,0,30,32); // Define menu label first
+var FileMenuLabel = new element2d({text: "File", X1: 20, Y1: 0, X2: 30, Y2: 32}); // Define menu label first
 //setting all the items in the menu and menu panel to undefine.
 var FileMenuPanel = undefined;
 var FileMenuItem1 = undefined;
@@ -167,21 +167,21 @@ var FileMenuItem6 = undefined;
 // Destroy and recreaated menu panels on click
 FileMenuLabel.onClick  = function(){
 	
-		if( FileMenuPanel == undefined){ FileMenuPanel = new element2d("", 0,primaryPanelCol,primaryPanelCol,10,20,33,300,500);}
-		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d("New", 1,primaryBtnCol,secondaryBtnCol,10,(FileMenuPanel.X2/2)-FileMenuPanel.X1,FileMenuPanel.Y2/10,(FileMenuPanel.X2/2)-FileMenuPanel.X1+10,32);}
+		if( FileMenuPanel == undefined){ FileMenuPanel = new element2d({panelColor: primaryPanelCol, onHoverColor: primaryPanelCol, X1: 20, Y1: 33, X2: 300, Y2: 500});}
+		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d({ text: "New",X1: (FileMenuPanel.X2/2)-FileMenuPanel.X1, Y1: FileMenuPanel.Y2/10, X2: (FileMenuPanel.X2/2)-FileMenuPanel.X1+10,Y2: 32});}
 		//create only first item with manual values and then simply use it to allign all other menu items
 		var itemindex = FileMenuItem1.bufferIndex;
-		
-		if( FileMenuItem2 == undefined){ FileMenuItem2 = new element2d("Open", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
-		if( FileMenuItem3 == undefined){ FileMenuItem3 = new element2d("Save", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
-		if( FileMenuItem4 == undefined){ FileMenuItem4 = new element2d("Delete", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
-		if( FileMenuItem5 == undefined){ FileMenuItem5 = new element2d("About", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
-		if( FileMenuItem6 == undefined){ FileMenuItem6 = new element2d("Quit", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
-		}
-		// destroy the panel and all menu items when clicked outside the clickable elements.
-		//for testing purpose we are not recreating the last menu item "Quit" it will be created only once and then destroyed for forever.
+		if( FileMenuItem2 == undefined){ FileMenuItem2 = new element2d({ text: "Open", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem3 == undefined){ FileMenuItem3 = new element2d({ text: "Save", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem4 == undefined){ FileMenuItem4 = new element2d({ text: "Delete", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem5 == undefined){ FileMenuItem5 = new element2d({ text: "About", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem6 == undefined){ FileMenuItem6 = new element2d({ text: "Quit", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
 
-FileMenuLabel.onOutsideClick = function() {
+		}
+		
+
+FileMenuLabel.onOutsideClick = function() {// destroy the panel and all menu items when clicked outside the clickable elements.
+	//for testing purpose we are not recreating the last menu item "Quit" it will be created only once and then destroyed for forever.
 	if(!FileMenuPanel.isMouseOver()){
 	var index = FileMenuPanel.bufferIndex; if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined; FileMenuItem2 = undefined; FileMenuItem3 = undefined; FileMenuItem4 = undefined;  FileMenuItem5 = undefined;}
  }}// undefine all the elements which should be recreated on menu recreation//
