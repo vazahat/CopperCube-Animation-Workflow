@@ -35,7 +35,7 @@ function toHexcol(rgb) {
   return hexColor;
 }
 
-
+//define Themes color schemes //
 var primaryBtnCol = color(30,30,30,0);
 var primaryPanelCol = color(30,30,30,150);
 var secondaryBtnCol = color(86,128,194,255);
@@ -148,7 +148,7 @@ var FileMenuItem3 = undefined;
 var FileMenuItem4 = undefined;
 var FileMenuItem5 = undefined;
 var FileMenuItem6 = undefined;
-// Destroy an recreaated menu panels on click
+// Destroy and recreaated menu panels on click
 FileMenuLabel.onMouseOver  = function(){
 	if(mouseDownL){
 	if(FileMenuLabel.isMouseOver() || FileMenuPanel.isMouseOver() ) // holds the elements if clicked on then not destroy any menu elements
@@ -161,9 +161,13 @@ FileMenuLabel.onMouseOver  = function(){
 		
 		if( FileMenuItem2 == undefined){ FileMenuItem2 = new element2d("Open", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
 		if( FileMenuItem3 == undefined){ FileMenuItem3 = new element2d("Save", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
+		if( FileMenuItem4 == undefined){ FileMenuItem4 = new element2d("Delete", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
+		if( FileMenuItem5 == undefined){ FileMenuItem5 = new element2d("About", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
+		if( FileMenuItem6 == undefined){ FileMenuItem6 = new element2d("Quit", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
 		}
-		// destroy the panel and all emnu items when clicked outside the clickable elements.
-		else { var index = element2dBuffer.indexOf(FileMenuPanel); if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined; FileMenuItem2 = undefined; FileMenuItem3 = undefined;print(element2dBuffer.length)} }
+		// destroy the panel and all menu items when clicked outside the clickable elements.
+		//for testing purpose we are not recreating the last menu item "Quit" it will be created only once and then destroyed for forever.
+		else { var index = FileMenuPanel.bufferIndex; if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined; FileMenuItem2 = undefined; FileMenuItem3 = undefined; FileMenuItem4 = undefined;  FileMenuItem5 = undefined;} }// undefine all the elements which should be recreated on menu recreation//
 	}
 }
 
