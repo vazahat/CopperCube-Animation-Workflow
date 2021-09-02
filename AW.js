@@ -49,12 +49,36 @@ element2d = function(object){
 	this.NormalColor = (object.panelColor) ? object.panelColor : primaryPanelCol;
 	this.X1 = (object.X1) ? object.X1 : 0 ;
 	this.X2 = (object.X2) ? object.X2 : 50;
+	this.onClick = (object.onClick) ? object.onClick: function(){};
+	this.CustomDraw = (object.CustomDraw) ? object.CustomDraw: function(){};
+	this.onMouseOver = (object.onMouseOver) ? object.onMouseOver: function(){};
+	this.isMouseOver = (object.isMouseOver) ? object.isMouseOver: function(){
+		var mouseX = ccbGetMousePosX();
+		var mouseY = ccbGetMousePosY();
+		var bool   = null;
+	
+		if(mouseX > (this.X1-(this.fontSize/2)) && mouseX < this.X2+(this.fontSize*this.text.length) && mouseY > this.Y1 && mouseY < this.Y1+this.Y2)
+		 {  
+		  this.NormalColor = this.onHoverColor;
+		  bool= true;
+		
+		 }
+		 else{this.NormalColor = this.panelColor; bool = false; }
+		 
+		 return bool;};
+	this.onOutsideClick = (object.onOutsideClick) ? object.onOutsideClick: function(){};
 	this.Y1 = (object.Y1) ? object.Y1 : 0;
 	this.Y2 = (object.Y2) ? object.Y2 : 32;
+	this.Shadow = (object.shadaow) ? object.shadow : true;
+	this.ShadowPosition = (object.shadow)
 	this.bufferIndex = element2dBuffer.push(this) - 1;
 }
 element2d.prototype.onFrameEvent = function(){
+	//for frame events
 	this.draw();
+	this.CustomDraw();
+	
+	//for  mouse events
 	if(this.isMouseOver()){
 		this.onMouseOver();
 
@@ -66,6 +90,7 @@ element2d.prototype.onFrameEvent = function(){
 			this.onOutsideClick();
 		}
 	}
+	 
 }
 
 element2d.prototype.draw = function(){
@@ -97,30 +122,6 @@ element2d.prototype.draw = function(){
 	return;
 }
 
-
-
-element2d.prototype.isMouseOver = function(){
-	// checks if the mouse is over this objects and returns true if it is, otherwise returns false
-	
-	var mouseX = ccbGetMousePosX();
-	var mouseY = ccbGetMousePosY();
-	var bool   = null;
-
-	if(mouseX > (this.X1-(this.fontSize/2)) && mouseX < this.X2+(this.fontSize*this.text.length) && mouseY > this.Y1 && mouseY < this.Y1+this.Y2)
-	 {  
-	  this.NormalColor = this.onHoverColor;
-	  bool= true;
-	
-	 }
-	 else{this.NormalColor = this.panelColor; bool = false; }
-	 
-	 return bool;
-
-}
-
-element2d.prototype.onMouseOver = function(){};
-element2d.prototype.onClick = function(){};
-element2d.prototype.onOutsideClick = function(){};
 //mouseDownFunction
 
 ccbRegisterMouseDownEvent("functionMouseDown");
@@ -179,12 +180,17 @@ FileMenuLabel.onClick  = function(){
 
 		}
 		
+		
 
 FileMenuLabel.onOutsideClick = function() {// destroy the panel and all menu items when clicked outside the clickable elements.
 	//for testing purpose we are not recreating the last menu item "Quit" it will be created only once and then destroyed for forever.
 	if(!FileMenuPanel.isMouseOver()){
 	var index = FileMenuPanel.bufferIndex; if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined; FileMenuItem2 = undefined; FileMenuItem3 = undefined; FileMenuItem4 = undefined;  FileMenuItem5 = undefined;}
  }}// undefine all the elements which should be recreated on menu recreation//
+
+ FileMenuItem1.onClick = function(){
+	print("sucess")
+ }
 	
 
 
