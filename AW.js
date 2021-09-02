@@ -6,11 +6,10 @@ mouseDownR = null;
 var element2dBuffer = [];
 e2dFrameEvent = function(){
 	for(var i = 0; i < element2dBuffer.length; i++){
-		element2dBuffer[i].draw();
-		element2dBuffer[i].isMouseOver();
-		element2dBuffer[i].onMouseOver();
+		element2dBuffer[i].onFrameEvent();
 	}
 }
+
 // string case checker
 function isLowerCase(str)
 {
@@ -53,6 +52,20 @@ element2d = function(text, textSpacing, panelColor, onHoverColor, fontSize, X1, 
 	this.Y1 = Y1;
 	this.Y2 = Y2;
 	this.bufferIndex = element2dBuffer.push(this) - 1;
+}
+element2d.prototype.onFrameEvent = function(){
+	this.draw();
+	if(this.isMouseOver()){
+		this.onMouseOver();
+
+		if(mouseDownL){
+			this.onClick();
+		}
+	}else{
+		if(mouseDownL){
+			this.onOutsideClick();
+		}
+	}
 }
 
 element2d.prototype.draw = function(){
@@ -104,8 +117,10 @@ element2d.prototype.isMouseOver = function(){
 	 return bool;
 
 }
-element2d.prototype.onMouseOver = function(){};
 
+element2d.prototype.onMouseOver = function(){};
+element2d.prototype.onClick = function(){};
+element2d.prototype.onOutsideClick = function(){};
 //mouseDownFunction
 
 ccbRegisterMouseDownEvent("functionMouseDown");
@@ -138,6 +153,7 @@ ccbRegisterOnFrameEvent(e2dFrameEvent);
 //element2d = function(text, textSpacing, panelColor, onHoverColor, fontSize, X1, Y1, X2, Y2){
 var Menubar = new element2d("", 0,color(30,30,30,255),color(30,30,30,255),10,0,0,scrX,32);
 var Statusbar = new element2d("", 0,color(48,48,48,255),color(48,48,48,255),10,0,scrY-32,scrX,scrY);
+var StatusText = new element2d("CC-Animation Workflow", 0,color(48,48,48,0),color(48,48,48,0),10,10,Statusbar.Y1+8,scrX,scrY);
 // creating a menu item
 var FileMenuLabel = new element2d("File", 0,primaryBtnCol,secondaryBtnCol,10,20,0,30,32); // Define menu label first
 //setting all the items in the menu and menu panel to undefine.
@@ -149,11 +165,8 @@ var FileMenuItem4 = undefined;
 var FileMenuItem5 = undefined;
 var FileMenuItem6 = undefined;
 // Destroy and recreaated menu panels on click
-FileMenuLabel.onMouseOver  = function(){
-	if(mouseDownL){
-	if(FileMenuLabel.isMouseOver() || FileMenuPanel.isMouseOver() ) // holds the elements if clicked on then not destroy any menu elements
-		{
-			
+FileMenuLabel.onClick  = function(){
+	
 		if( FileMenuPanel == undefined){ FileMenuPanel = new element2d("", 0,primaryPanelCol,primaryPanelCol,10,20,33,300,500);}
 		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d("New", 1,primaryBtnCol,secondaryBtnCol,10,(FileMenuPanel.X2/2)-FileMenuPanel.X1,FileMenuPanel.Y2/10,(FileMenuPanel.X2/2)-FileMenuPanel.X1+10,32);}
 		//create only first item with manual values and then simply use it to allign all other menu items
@@ -167,9 +180,14 @@ FileMenuLabel.onMouseOver  = function(){
 		}
 		// destroy the panel and all menu items when clicked outside the clickable elements.
 		//for testing purpose we are not recreating the last menu item "Quit" it will be created only once and then destroyed for forever.
-		else { var index = FileMenuPanel.bufferIndex; if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined; FileMenuItem2 = undefined; FileMenuItem3 = undefined; FileMenuItem4 = undefined;  FileMenuItem5 = undefined;} }// undefine all the elements which should be recreated on menu recreation//
-	}
-}
+
+FileMenuLabel.onOutsideClick = function() {
+	if(!FileMenuPanel.isMouseOver()){
+	var index = FileMenuPanel.bufferIndex; if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined; FileMenuItem2 = undefined; FileMenuItem3 = undefined; FileMenuItem4 = undefined;  FileMenuItem5 = undefined;}
+ }}// undefine all the elements which should be recreated on menu recreation//
+	
+
+
 
 
 
