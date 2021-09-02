@@ -8,8 +8,33 @@ e2dFrameEvent = function(){
 	for(var i = 0; i < element2dBuffer.length; i++){
 		element2dBuffer[i].draw();
 		element2dBuffer[i].isMouseOver();
+		element2dBuffer[i].onMouseOver();
 	}
 }
+// string case checker
+function isLowerCase(str)
+{
+    return str == str.toLowerCase() && str != str.toUpperCase();
+}
+
+//Color functions and color conversions.
+//convert rgba(red,green,blue,and alpha) to hex color and return to draw rectangle with transparency
+//return hexcolor value to be used to draw rectangle
+function color(r,g,b,alpha) 
+{
+	var r = toHexcol(r); // get hex value for red
+    var g = toHexcol(g); // get hex value for green
+    var b = toHexcol(b);	//get hex value for blue
+	var color = (alpha<<24) | ( "0x00"+r+g+b & 0x00ffffff); //return color with alpha transparency correction using bitwise operation
+	return color;
+};
+//Conversion of rgb to hex color
+function toHexcol(rgb) {
+  var hexColor = rgb.toString(16);
+  while (hexColor.length < 2) {hexColor = "0" + hexColor; }
+  return hexColor;
+}
+
 
 var primaryBtnCol = color(30,30,30,0);
 var primaryPanelCol = color(30,30,30,150);
@@ -79,41 +104,22 @@ element2d.prototype.isMouseOver = function(){
 	 return bool;
 
 }
-var FileMenuPanel = undefined;
-var FileMenuItem1 = undefined;
-var FileMenuItem2 = undefined;
-var FileMenuItem3 = undefined;
-var FileMenuItem4 = undefined;
-var FileMenuItem5 = undefined;
-var FileMenuItem6 = undefined;
+element2d.prototype.onMouseOver = function(){};
 
 //mouseDownFunction
+
 ccbRegisterMouseDownEvent("functionMouseDown");
 ccbRegisterMouseUpEvent("functionMouseUp");
+
 function functionMouseDown (click){
 	// print(click);
 	if(click == 0){
 		mouseDownL = true;
-		if(FileMenuLabel.isMouseOver() || FileMenuPanel.isMouseOver() )
-		{
-			
-		if( FileMenuPanel == undefined){ FileMenuPanel = new element2d("", 0,primaryPanelCol,primaryPanelCol,10,20,33,300,500);}
-		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d("New", 1,primaryBtnCol,secondaryBtnCol,10,(FileMenuPanel.X2/2)-FileMenuPanel.X1,FileMenuPanel.Y2/10,(FileMenuPanel.X2/2)-FileMenuPanel.X1+10,32);}
-		var itemindex = element2dBuffer.indexOf(FileMenuItem1);
-		
-		if( FileMenuItem2 == undefined){ FileMenuItem2 = new element2d("Open", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
-		if( FileMenuItem3 == undefined){ FileMenuItem3 = new element2d("Save", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
 		}
-
-		
-		else { var index = element2dBuffer.indexOf(FileMenuPanel); if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined; FileMenuItem2 = undefined; FileMenuItem3 = undefined;} }
-	}
 
 	if(click == 1){
 		mouseDownR = true;
 	}
-
-
 }
 function functionMouseUp (click){
 	if(click == 0) {
@@ -125,41 +131,45 @@ function functionMouseUp (click){
 	}
 }
 
+// Draw Function
+ccbRegisterOnFrameEvent(e2dFrameEvent);
+
 // START FUNCTION: Drawing elements//
 //element2d = function(text, textSpacing, panelColor, onHoverColor, fontSize, X1, Y1, X2, Y2){
 var Menubar = new element2d("", 0,color(30,30,30,255),color(30,30,30,255),10,0,0,scrX,32);
 var Statusbar = new element2d("", 0,color(48,48,48,255),color(48,48,48,255),10,0,scrY-32,scrX,scrY);
-var FileMenuLabel = new element2d("File", 0,primaryBtnCol,secondaryBtnCol,10,20,0,30,32);
-
-
-
-
-// Draw Function
-
-ccbRegisterOnFrameEvent(e2dFrameEvent);
-
-function isLowerCase(str)
-{
-    return str == str.toLowerCase() && str != str.toUpperCase();
+// creating a menu item
+var FileMenuLabel = new element2d("File", 0,primaryBtnCol,secondaryBtnCol,10,20,0,30,32); // Define menu label first
+//setting all the items in the menu and menu panel to undefine.
+var FileMenuPanel = undefined;
+var FileMenuItem1 = undefined;
+var FileMenuItem2 = undefined;
+var FileMenuItem3 = undefined;
+var FileMenuItem4 = undefined;
+var FileMenuItem5 = undefined;
+var FileMenuItem6 = undefined;
+// Destroy an recreaated menu panels on click
+FileMenuLabel.onMouseOver  = function(){
+	if(mouseDownL){
+	if(FileMenuLabel.isMouseOver() || FileMenuPanel.isMouseOver() ) // holds the elements if clicked on then not destroy any menu elements
+		{
+			
+		if( FileMenuPanel == undefined){ FileMenuPanel = new element2d("", 0,primaryPanelCol,primaryPanelCol,10,20,33,300,500);}
+		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d("New", 1,primaryBtnCol,secondaryBtnCol,10,(FileMenuPanel.X2/2)-FileMenuPanel.X1,FileMenuPanel.Y2/10,(FileMenuPanel.X2/2)-FileMenuPanel.X1+10,32);}
+		//create only first item with manual values and then simply use it to allign all other menu items
+		var itemindex = FileMenuItem1.bufferIndex;
+		
+		if( FileMenuItem2 == undefined){ FileMenuItem2 = new element2d("Open", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
+		if( FileMenuItem3 == undefined){ FileMenuItem3 = new element2d("Save", 1,primaryBtnCol,secondaryBtnCol,10,element2dBuffer[itemindex].X1,element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize,element2dBuffer[itemindex].X2,32);itemindex += 1;}
+		}
+		// destroy the panel and all emnu items when clicked outside the clickable elements.
+		else { var index = element2dBuffer.indexOf(FileMenuPanel); if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined; FileMenuItem2 = undefined; FileMenuItem3 = undefined;print(element2dBuffer.length)} }
+	}
 }
 
-//Color functions and color conversions.
-//convert rgba(red,green,blue,and alpha) to hex color and return to draw rectangle with transparency
-//return hexcolor value to be used to draw rectangle
-function color(r,g,b,alpha) 
-{
-	var r = toHexcol(r); // get hex value for red
-    var g = toHexcol(g); // get hex value for green
-    var b = toHexcol(b);	//get hex value for blue
-	var color = (alpha<<24) | ( "0x00"+r+g+b & 0x00ffffff); //return color with alpha transparency correction using bitwise operation
-	return color;
-};
-//Conversion of rgb to hex color
-function toHexcol(rgb) {
-  var hexColor = rgb.toString(16);
-  while (hexColor.length < 2) {hexColor = "0" + hexColor; }
-  return hexColor;
-}
+
+
+
 
 
 
