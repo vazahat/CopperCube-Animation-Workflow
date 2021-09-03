@@ -1,4 +1,5 @@
 ccbSetWorkingDirectory("AW//");
+ccbSetCursorVisible(true);
 var scrX = ccbGetScreenWidth();
 var scrY = ccbGetScreenHeight();
 mouseDownL = null;
@@ -38,6 +39,7 @@ function toHexcol(rgb) {
 var primaryBtnCol = color(30,30,30,0);
 var primaryPanelCol = color(30,30,30,150);
 var secondaryBtnCol = color(86,128,194,255);
+var shadowCol = color(10,10,10,150);
 
 
 element2d = function(object){
@@ -69,8 +71,9 @@ element2d = function(object){
 	this.onOutsideClick = (object.onOutsideClick) ? object.onOutsideClick: function(){};
 	this.Y1 = (object.Y1) ? object.Y1 : 0;
 	this.Y2 = (object.Y2) ? object.Y2 : 32;
-	this.Shadow = (object.shadaow) ? object.shadow : true;
-	this.ShadowPosition = (object.shadow)
+	this.Shadow = (object.Shadow) ? object.Shadow : false;
+	this.ShadowPosition = (object.ShadowPosition) ? object.ShadowPosition : "bottomleft";
+	this.ShadowColor = (object.ShadowColor) ? object.ShadowColor  : shadowCol;
 	this.bufferIndex = element2dBuffer.push(this) - 1;
 }
 element2d.prototype.onFrameEvent = function(){
@@ -105,6 +108,12 @@ element2d.prototype.draw = function(){
 		X2 += (this.fontSize*this.text.length);
 	}
 	ccbDrawColoredRectangle(color,X1-(this.fontSize/2),Y1,X2,Y1+Y2);
+	if(this.Shadow){
+		if (this.ShadowPosition == "left" || this.ShadowPosition == "bottomleft"){
+	ccbDrawColoredRectangle(this.ShadowColor,X2,Y1,X2+5,Y1+Y2);}
+	if (this.ShadowPosition == "bottom" || this.ShadowPosition == "bottomleft"){
+		ccbDrawColoredRectangle(this.ShadowColor,X1,Y1+Y2,X2+5,Y1+Y2+5);}
+}
 	Y1 = Y1+(this.fontSize/2);
 	//draw texture according to the string//
 	
@@ -168,8 +177,13 @@ var FileMenuItem6 = undefined;
 // Destroy and recreaated menu panels on click
 FileMenuLabel.onClick  = function(){
 	
-		if( FileMenuPanel == undefined){ FileMenuPanel = new element2d({panelColor: primaryPanelCol, onHoverColor: primaryPanelCol, X1: 20, Y1: 33, X2: 300, Y2: 500});}
+		if( FileMenuPanel == undefined){ FileMenuPanel = new element2d({Shadow: true, panelColor: primaryPanelCol, onHoverColor: primaryPanelCol, X1: 20, Y1: 33, X2: 300, Y2: 500});}
 		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d({ text: "New",X1: (FileMenuPanel.X2/2)-FileMenuPanel.X1, Y1: FileMenuPanel.Y2/10, X2: (FileMenuPanel.X2/2)-FileMenuPanel.X1+10,Y2: 32});}
+		FileMenuItem1.onClick = function(){
+			
+			
+		}
+			
 		//create only first item with manual values and then simply use it to allign all other menu items
 		var itemindex = FileMenuItem1.bufferIndex;
 		if( FileMenuItem2 == undefined){ FileMenuItem2 = new element2d({ text: "Open", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
@@ -188,10 +202,7 @@ FileMenuLabel.onOutsideClick = function() {// destroy the panel and all menu ite
 	var index = FileMenuPanel.bufferIndex; if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined; FileMenuItem2 = undefined; FileMenuItem3 = undefined; FileMenuItem4 = undefined;  FileMenuItem5 = undefined;}
  }}// undefine all the elements which should be recreated on menu recreation//
 
- FileMenuItem1.onClick = function(){
-	print("sucess")
- }
-	
+
 
 
 
