@@ -174,16 +174,11 @@ var FileMenuItem3 = undefined;
 var FileMenuItem4 = undefined;
 var FileMenuItem5 = undefined;
 var FileMenuItem6 = undefined;
-// Destroy and recreaated menu panels on click
+
 FileMenuLabel.onClick  = function(){
 	
 		if( FileMenuPanel == undefined){ FileMenuPanel = new element2d({Shadow: true, panelColor: primaryPanelCol, onHoverColor: primaryPanelCol, X1: 20, Y1: 33, X2: 300, Y2: 500});}
 		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d({ text: "New",X1: (FileMenuPanel.X2/2)-FileMenuPanel.X1, Y1: FileMenuPanel.Y2/10, X2: (FileMenuPanel.X2/2)-FileMenuPanel.X1+10,Y2: 32});}
-		FileMenuItem1.onClick = function(){
-			
-			
-		}
-			
 		//create only first item with manual values and then simply use it to allign all other menu items
 		var itemindex = FileMenuItem1.bufferIndex;
 		if( FileMenuItem2 == undefined){ FileMenuItem2 = new element2d({ text: "Open", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
@@ -192,10 +187,17 @@ FileMenuLabel.onClick  = function(){
 		if( FileMenuItem5 == undefined){ FileMenuItem5 = new element2d({ text: "About", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
 		if( FileMenuItem6 == undefined){ FileMenuItem6 = new element2d({ text: "Quit", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
 
+		
+	
+		FileMenuItem2.onClick = function(){
+			ccbSwitchToCCBFile("test.ccb");
+			
 		}
+	
+	}
 		
 		
-
+// Destroy and recreaated menu panels on click
 FileMenuLabel.onOutsideClick = function() {// destroy the panel and all menu items when clicked outside the clickable elements.
 	//for testing purpose we are not recreating the last menu item "Quit" it will be created only once and then destroyed for forever.
 	if(!FileMenuPanel.isMouseOver()){
