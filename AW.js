@@ -1,17 +1,13 @@
 ccbSetWorkingDirectory("AW//");
-ccbSetCursorVisible(true);
+ccbSetCursorVisible(true); // set mouse cursor always visible
+
+// define constant variables with full scope//
 var scrX = ccbGetScreenWidth();
 var scrY = ccbGetScreenHeight();
 var tempMouseX =  undefined;
 var tempMouseY = undefined;
 mouseDownL = null;
 mouseDownR = null;
-var element2dBuffer = [];
-e2dFrameEvent = function(){
-	for(var i = 0; i < element2dBuffer.length; i++){
-		element2dBuffer[i].onFrameEvent();
-	}
-}
 
 // string case checker
 function isLowerCase(str)
@@ -36,7 +32,7 @@ function toHexcol(rgb) {
   while (hexColor.length < 2) {hexColor = "0" + hexColor; }
   return hexColor;
 }
-
+//
 //define Themes color schemes //
 var primaryBtnCol = color(30,30,30,0);
 var primaryPanelCol = color(30,30,30,150);
@@ -44,7 +40,15 @@ var secondaryBtnCol = color(86,128,194,255);
 var shadowCol = color(10,10,10,150);
 var selectionCol   = color(255,255,255,5);
 
+// main 
+var element2dBuffer = [];
+e2dFrameEvent = function(){
+	for(var i = 0; i < element2dBuffer.length; i++){
+		element2dBuffer[i].onFrameEvent();
+	}
+}
 
+// constructor
 element2d = function(object){
 	this.text = (object.text) ? object.text : "";
 	this.textSpacing = (object.textSpacing) ? object.textSpacing : 0;
@@ -98,8 +102,10 @@ element2d = function(object){
 	this.Shadow = (object.Shadow) ? object.Shadow : false;
 	this.ShadowPosition = (object.ShadowPosition) ? object.ShadowPosition : "bottomleft";
 	this.ShadowColor = (object.ShadowColor) ? object.ShadowColor  : shadowCol;
+	this.ShadowSize = (object.ShadowSize) ? object.ShadowSize : 5;
 	this.bufferIndex = element2dBuffer.push(this) - 1;
 }
+
 element2d.prototype.onFrameEvent = function(){
 	//for frame events
 	this.draw();
@@ -137,9 +143,9 @@ element2d.prototype.draw = function(){
 	ccbDrawColoredRectangle(color,X1-(this.fontSize/2),Y1,X2,Y1+Y2);
 	if(this.Shadow){
 		if (this.ShadowPosition == "left" || this.ShadowPosition == "bottomleft"){
-	ccbDrawColoredRectangle(this.ShadowColor,X2,Y1,X2+5,Y1+Y2);}
+	ccbDrawColoredRectangle(this.ShadowColor,X2,Y1,X2+this.ShadowSize,Y1+Y2);}
 	if (this.ShadowPosition == "bottom" || this.ShadowPosition == "bottomleft"){
-		ccbDrawColoredRectangle(this.ShadowColor,X1,Y1+Y2,X2+5,Y1+Y2+5);}
+		ccbDrawColoredRectangle(this.ShadowColor,X1,Y1+Y2,X2+this.ShadowSize,Y1+Y2+this.ShadowSize);}
 }
 	Y1 = Y1+(this.fontSize/2);
 	//draw texture according to the string//
