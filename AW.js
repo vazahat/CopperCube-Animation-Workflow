@@ -2,6 +2,8 @@ ccbSetWorkingDirectory("AW//");
 ccbSetCursorVisible(true);
 var scrX = ccbGetScreenWidth();
 var scrY = ccbGetScreenHeight();
+var tempMouseX =  undefined;
+var tempMouseY = undefined;
 mouseDownL = null;
 mouseDownR = null;
 var element2dBuffer = [];
@@ -40,6 +42,7 @@ var primaryBtnCol = color(30,30,30,0);
 var primaryPanelCol = color(30,30,30,150);
 var secondaryBtnCol = color(86,128,194,255);
 var shadowCol = color(10,10,10,150);
+var selectionCol   = color(255,255,255,5);
 
 
 element2d = function(object){
@@ -68,7 +71,26 @@ element2d = function(object){
 		 else{this.NormalColor = this.panelColor; bool = false; }
 		 
 		 return bool;};
-	this.onOutsideClick = (object.onOutsideClick) ? object.onOutsideClick: function(){};
+	this.onOutsideClick = (object.onOutsideClick) ? object.onOutsideClick: function(){
+		var mouseX = ccbGetMousePosX();
+		var mouseY = ccbGetMousePosY();
+		if (tempMouseX<=mouseX && tempMouseY<=mouseY )
+		{
+		ccbDrawColoredRectangle(selectionCol, tempMouseX, tempMouseY, mouseX, mouseY);
+		}
+		if (tempMouseX<=mouseX && tempMouseY>=mouseY )
+		{
+		ccbDrawColoredRectangle(selectionCol, tempMouseX, mouseY, mouseX, tempMouseY);
+		}
+		if (tempMouseX>=mouseX && tempMouseY<=mouseY )
+		{
+		ccbDrawColoredRectangle(selectionCol, mouseX,tempMouseY, tempMouseX, mouseY);
+		}
+		if (tempMouseX>=mouseX && tempMouseY>=mouseY )
+		{
+		ccbDrawColoredRectangle(selectionCol, mouseX, mouseY,tempMouseX,tempMouseY);
+		}
+	};
 	this.Y1 = (object.Y1) ? object.Y1 : 0;
 	this.Y2 = (object.Y2) ? object.Y2 : 32;
 	this.Shadow = (object.Shadow) ? object.Shadow : false;
@@ -87,10 +109,12 @@ element2d.prototype.onFrameEvent = function(){
 
 		if(mouseDownL){
 			this.onClick();
+		
 		}
 	}else{
 		if(mouseDownL){
 			this.onOutsideClick();
+
 		}
 	}
 	 
@@ -140,6 +164,8 @@ function functionMouseDown (click){
 	// print(click);
 	if(click == 0){
 		mouseDownL = true;
+		tempMouseX = ccbGetMousePosX();
+		tempMouseY = ccbGetMousePosY();
 		}
 
 	if(click == 1){
