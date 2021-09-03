@@ -62,7 +62,7 @@ element2d = function(object){
 		var mouseY = ccbGetMousePosY();
 		var bool   = null;
 	
-		if(mouseX > (this.X1-(this.fontSize/2)) && mouseX < this.X2+(this.fontSize*this.text.length) && mouseY > this.Y1 && mouseY < this.Y1+this.Y2)
+		if(mouseX > (this.X1-(this.fontSize/2)) && mouseX < this.X2+(this.fontSize*this.text.length) && mouseY > this.Y1-(this.fontSize/2) && mouseY < this.Y1+this.Y2)
 		 {  
 		  this.NormalColor = this.onHoverColor;
 		  bool= true;
@@ -74,6 +74,8 @@ element2d = function(object){
 	this.onOutsideClick = (object.onOutsideClick) ? object.onOutsideClick: function(){
 		var mouseX = ccbGetMousePosX();
 		var mouseY = ccbGetMousePosY();
+		if(mouseY > scrY-32){mouseY = scrY-32-10};
+		if(mouseY < 32){mouseY = 32+10};
 		if (tempMouseX<=mouseX && tempMouseY<=mouseY )
 		{
 		ccbDrawColoredRectangle(selectionCol, tempMouseX, tempMouseY, mouseX, mouseY);
@@ -107,15 +109,16 @@ element2d.prototype.onFrameEvent = function(){
 	if(this.isMouseOver()){
 		this.onMouseOver();
 
-		if(mouseDownL){
+		if(mouseDownL && this.clickdown ){
 			this.onClick();
 		
 		}
 	}else{
 		if(mouseDownL){
+			this.clickdown = false;
 			this.onOutsideClick();
-
 		}
+		else {this.clickdown = true}
 	}
 	 
 }
@@ -166,7 +169,8 @@ function functionMouseDown (click){
 		mouseDownL = true;
 		tempMouseX = ccbGetMousePosX();
 		tempMouseY = ccbGetMousePosY();
-		}
+	}
+		
 
 	if(click == 1){
 		mouseDownR = true;
@@ -187,8 +191,8 @@ ccbRegisterOnFrameEvent(e2dFrameEvent);
 
 // START FUNCTION: Drawing elements//
 //element2d = function(text, textSpacing, panelColor, onHoverColor, fontSize, X1, Y1, X2, Y2){
-var Menubar = new element2d({X2:scrX, panelColor: color(30,30,30,255), onHoverColor: color(30,30,30,255)});
-var Statusbar = new element2d({panelColor: color(48,48,48,255), onHoverColor: color(48,48,48,255), Y1: scrY-32, X2: scrX, Y2: scrY});
+var Menubar = new element2d({X2:scrX, panelColor: color(30,30,30,255), onHoverColor: color(30,30,30,255), onClick : function(){ if (tempMouseY < 32){tempMouseY = 32+10}} });
+var Statusbar = new element2d({panelColor: color(48,48,48,255), onHoverColor: color(48,48,48,255), Y1: scrY-32, X2: scrX, Y2: scrY,  onClick : function(){ if (tempMouseY > scrY-32){tempMouseY = scrY-32-10}} });
 
 // creating a menu item
 var FileMenuLabel = new element2d({text: "File", X1: 20, Y1: 0, X2: 30, Y2: 32}); // Define menu label first
@@ -229,15 +233,3 @@ FileMenuLabel.onOutsideClick = function() {// destroy the panel and all menu ite
 	if(!FileMenuPanel.isMouseOver()){
 	var index = FileMenuPanel.bufferIndex; if(index > -1){element2dBuffer.splice(index); FileMenuPanel = undefined; FileMenuItem1 = undefined; FileMenuItem2 = undefined; FileMenuItem3 = undefined; FileMenuItem4 = undefined;  FileMenuItem5 = undefined;}
  }}// undefine all the elements which should be recreated on menu recreation//
-
-
-
-
-
-
-
-
-
-
-
-
