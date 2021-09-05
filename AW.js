@@ -51,6 +51,7 @@ e2dFrameEvent = function(){
 // constructor
 element2d = function(object){
 	this.text = (object.text) ? object.text : "";
+	this.type = (object.type) ? object.type :"panel";
 	this.textSpacing = (object.textSpacing) ? object.textSpacing : 0;
 	this.fontSize = (object.fontSize) ? object.fontSize : 10;
 	this.panelColor = (object.panelColor) ? object.panelColor : primaryBtnCol;
@@ -140,7 +141,8 @@ element2d.prototype.draw = function(){
 	if (X2 < X1+(this.text.length*this.fontSize)+this.fontSize){
 		X2 += (this.fontSize*this.text.length);
 	}
-	ccbDrawColoredRectangle(color,X1-(this.fontSize/2),Y1,X2,Y1+Y2);
+	if(this.type == "panel" || this.type == "panelWithText"){
+	ccbDrawColoredRectangle(color,X1-(this.fontSize/2),Y1,X2,Y1+Y2);}
 	if(this.Shadow){
 		if (this.ShadowPosition == "left" || this.ShadowPosition == "bottomleft"){
 	ccbDrawColoredRectangle(this.ShadowColor,X2,Y1,X2+this.ShadowSize,Y1+Y2);}
@@ -157,7 +159,7 @@ element2d.prototype.draw = function(){
 		var strCase = "L_"
 	}
     else{ strCase = ""};
-	
+	if(this.type == "label" || this.type == "panelWithText")
 	ccbDrawTextureRectangleWithAlpha("font//"+strCase+this.text.charAt(i)+".png", X1+(i*this.fontSize)+this.textSpacing, Y1, X1+(i*this.fontSize)+this.fontSize, Y1+this.fontSize+(this.fontSize/2));
 
 	}	
@@ -197,11 +199,11 @@ ccbRegisterOnFrameEvent(e2dFrameEvent);
 
 // START FUNCTION: Drawing elements//
 //element2d = function(text, textSpacing, panelColor, onHoverColor, fontSize, X1, Y1, X2, Y2){
-var Menubar = new element2d({X2:scrX, panelColor: color(30,30,30,255), onHoverColor: color(30,30,30,255), onClick : function(){ if (tempMouseY < 32){tempMouseY = 32+10}} });
+var Menubar = new element2d({type: "panel", X2:scrX, panelColor: color(30,30,30,255), onHoverColor: color(30,30,30,255), onClick : function(){ if (tempMouseY < 32){tempMouseY = 32+10}} });
 var Statusbar = new element2d({panelColor: color(48,48,48,255), onHoverColor: color(48,48,48,255), Y1: scrY-32, X2: scrX, Y2: scrY,  onClick : function(){ if (tempMouseY > scrY-32){tempMouseY = scrY-32-10}} });
 
 // creating a menu item
-var FileMenuLabel = new element2d({text: "File", X1: 20, Y1: 0, X2: 30, Y2: 32}); // Define menu label first
+var FileMenuLabel = new element2d({type: "panelWithText", text: "File", X1: 20, Y1: 0, X2: 30, Y2: 32}); // Define menu label first
 //setting all the items in the menu and menu panel to undefine.
 var FileMenuPanel = undefined;
 var FileMenuItem1 = undefined;
@@ -210,23 +212,37 @@ var FileMenuItem3 = undefined;
 var FileMenuItem4 = undefined;
 var FileMenuItem5 = undefined;
 var FileMenuItem6 = undefined;
+var FileMenuItem7 = undefined;
+var FileMenuItem8 = undefined;
+var FileMenuItem9 = undefined;
+var FileMenuItem10 = undefined;
+var ConfirmBoX1 = undefined;
 
 FileMenuLabel.onClick  = function(){
 	
 		if( FileMenuPanel == undefined){ FileMenuPanel = new element2d({Shadow: true, panelColor: primaryPanelCol, onHoverColor: primaryPanelCol, X1: 20, Y1: 33, X2: 300, Y2: 500});}
-		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d({ text: "New",X1: (FileMenuPanel.X2/2)-FileMenuPanel.X1, Y1: FileMenuPanel.Y2/10, X2: (FileMenuPanel.X2/2)-FileMenuPanel.X1+10,Y2: 32});}
+		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d({ type: "panelWithText", text: "New",X1: (FileMenuPanel.X2/2)-FileMenuPanel.X1, Y1: FileMenuPanel.Y2/10, X2: (FileMenuPanel.X2/2)-FileMenuPanel.X1+10,Y2: 32});}
 		//create only first item with manual values and then simply use it to allign all other menu items
 		var itemindex = FileMenuItem1.bufferIndex;
-		if( FileMenuItem2 == undefined){ FileMenuItem2 = new element2d({ text: "Open", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
-		if( FileMenuItem3 == undefined){ FileMenuItem3 = new element2d({ text: "Save", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
-		if( FileMenuItem4 == undefined){ FileMenuItem4 = new element2d({ text: "Delete", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
-		if( FileMenuItem5 == undefined){ FileMenuItem5 = new element2d({ text: "About", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
-		if( FileMenuItem6 == undefined){ FileMenuItem6 = new element2d({ text: "Quit", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem2 == undefined){ FileMenuItem2 = new element2d({ type: "panelWithText", text: "Open", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem3 == undefined){ FileMenuItem3 = new element2d({ type: "panelWithText", text: "Save", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem4 == undefined){ FileMenuItem4 = new element2d({ type: "panelWithText", text: "Save as", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem5 == undefined){ FileMenuItem5 = new element2d({ type: "panelWithText", text: "Import ccb model", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem6 == undefined){ FileMenuItem6 = new element2d({ type: "panelWithText", text: "Export action", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem7 == undefined){ FileMenuItem7 = new element2d({ type: "panelWithText", text: "test item", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem8 == undefined){ FileMenuItem8 = new element2d({ type: "panelWithText", text: "test item", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem9 == undefined){ FileMenuItem9 = new element2d({ type: "panelWithText", text: "About", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
+		if( FileMenuItem10 == undefined){ FileMenuItem10 = new element2d({ type: "panelWithText", text: "Quit", X1: element2dBuffer[itemindex].X1, Y1: element2dBuffer[itemindex].Y1+element2dBuffer[itemindex].Y2+element2dBuffer[itemindex].fontSize, X2: element2dBuffer[itemindex].X2, Y2: 32});itemindex += 1;}
 
 		
 	
 		FileMenuItem2.onClick = function(){
 			ccbSwitchToCCBFile("test.ccb");
+			
+		}
+		FileMenuItem10.onClick = function(){
+			if(ConfirmBoX1 == undefined){ConfirmBoX1 = new element2d({text: "Are you sure you want to Quit the application?",panelColor: primaryPanelCol, onHoverColor: primaryPanelCol,  X1: scrX/2-scrX/4,X2: scrX/2+scrX/4, Y1:scrY/2-scrY/4,Y2:scrY/4})}
+
 			
 		}
 	
