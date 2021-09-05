@@ -35,8 +35,9 @@ function toHexcol(rgb) {
 //
 //define Themes color schemes //
 var primaryBtnCol = color(30,30,30,0);
-var primaryPanelCol = color(30,30,30,150);
+var primaryPanelCol = color(200,30,30,5);
 var secondaryBtnCol = color(86,128,194,255);
+var testColor = color(30,30,200,255);
 var shadowCol = color(10,10,10,150);
 var selectionCol   = color(255,255,255,5);
 
@@ -57,6 +58,7 @@ element2d = function(object){
 	this.panelColor = (object.panelColor) ? object.panelColor : primaryBtnCol;
 	this.onHoverColor = (object.onHoverColor) ? object.onHoverColor : secondaryBtnCol;
 	this.NormalColor = (object.panelColor) ? object.panelColor : primaryPanelCol;
+	this.testColor =(object.testColor) ? object.testColor : testColor;
 	this.X1 = (object.X1) ? object.X1 : 0 ;
 	this.X2 = (object.X2) ? object.X2 : 50;
 	this.onClick = (object.onClick) ? object.onClick: function(){};
@@ -159,9 +161,14 @@ element2d.prototype.draw = function(){
 		var strCase = "L_"
 	}
     else{ strCase = ""};
-	if(this.type == "label" || this.type == "panelWithText")
+	if(this.type == "label" || this.type == "panelWithText"){
 	ccbDrawTextureRectangleWithAlpha("font//"+strCase+this.text.charAt(i)+".png", X1+(i*this.fontSize)+this.textSpacing, Y1, X1+(i*this.fontSize)+this.fontSize, Y1+this.fontSize+(this.fontSize/2));
-
+	}
+	if(this.type == "confirmBox"){
+		ccbDrawColoredRectangle(color,scrX/2-scrX/4,scrY/2-scrY/4,scrX/2+scrX/4,scrY/2+scrY/6);
+		ccbDrawColoredRectangle(this.testColor,X1+(i*this.fontSize)+this.textSpacing, Y1-this.fontSize/2-1, scrX/2+scrX/4, Y1+this.fontSize+(this.fontSize/2)+scrY/2.5);
+		//ccbDrawTextureRectangleWithAlpha("font//"+strCase+this.text.charAt(i)+".png", X1+(i*this.fontSize)+this.textSpacing, Y1, X1+(i*this.fontSize)+this.fontSize, Y1+this.fontSize+(this.fontSize/2));
+	}
 	}	
 	return;
 }
@@ -241,7 +248,7 @@ FileMenuLabel.onClick  = function(){
 			
 		}
 		FileMenuItem10.onClick = function(){
-			if(ConfirmBoX1 == undefined){ConfirmBoX1 = new element2d({text: "Are you sure you want to Quit the application?",panelColor: primaryPanelCol, onHoverColor: primaryPanelCol,  X1: scrX/2-scrX/4,X2: scrX/2+scrX/4, Y1:scrY/2-scrY/4,Y2:scrY/4})}
+			if(ConfirmBoX1 == undefined){ConfirmBoX1 = new element2d({type: "confirmBox", text: "Are you sure you want to Quit the application this is just a test to check the gradient",panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X1: scrX/2-scrX/4,X2: scrX/2+scrX/4, Y1:scrY/2-scrY/4,Y2:scrY/4})}
 
 			
 		}
