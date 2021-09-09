@@ -288,7 +288,7 @@ FileMenuLabel.onClick  = function()
 		FileMenuItem7 = new element2d({ type: "panelWithText", text: "Whatever", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
 		FileMenuItem8 = new element2d({ type: "panelWithText", text: "test item", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
 		FileMenuItem9 = new element2d({ type: "panelWithText", text: "About", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
-		FileMenuItem10 = new element2d({ type: "panelWithText", text: "Quit", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
+		FileMenuItem10 = new element2d({ type: "panelWithText", text: "Quit", status: "Close the application", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
 	}
 	if(element2dBuffer.indexOf(FileMenuItem2) !== -1)
 	{
@@ -320,10 +320,12 @@ FileMenuLabel.onClick  = function()
 			ConfirmBoxL = new element2d({type: "label", text: "Are you sure you want to Quit the application this is just a test to check the gradient",panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: scrX/2-scrX/4,width: scrX/2+scrX/4, Y:scrY/2-scrY/4,height:scrY/4})
 			ConfirmBoxI = new element2d({type: "image", panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: (scrX/2-scrX/4), Y:ConfirmBoxBG.height+100, width: 100, height: 100})
 			ConfirmBoxB1 = new element2d({type: "panelWithText",text: "Yes",X: ConfirmBoxBG.X+200, Y: ConfirmBoxBG.Y +200 ,height: 30});
-			var index = FileMenuPanel.bufferIndex; if(index > -1){element2dBuffer.splice(index,11); FileMenuPanel = new element2d({type:"none"}); FileMenuItem1 = ""; FileMenuItem2 = ""; FileMenuItem3 =""; FileMenuItem4 ="";  FileMenuItem5 = ""; FileMenuItem6 = ""; FileMenuItem7 = ""; FileMenuItem8 = "";   FileMenuItem9 = "";  FileMenuItem10 = ""; }
+			ConfirmBoxB2 = new element2d({type: "panelWithText",text: "Cancel",X: ConfirmBoxBG.X+400, Y: ConfirmBoxBG.Y +200,  height: 30});
+			var index = element2dBuffer.indexOf(FileMenuPanel); if(index > -1){element2dBuffer.splice(index,11); FileMenuPanel = ""; }
 		}
 	}
 }
+
 
 		
 		
@@ -333,13 +335,26 @@ FileMenuLabel.onOutsideClick = function()
 	//for testing purpose we are not recreating the last menu item "Quit" it will be created only once and then destroyed for forever.
 	// undefine all the elements which should be recreated on menu recreation//
 	
-	{
+	
 		if(element2dBuffer.indexOf(FileMenuPanel) !== -1) 
 		{
 			FileMenuPanel.onOutsideClick = function()
 			{
-				var index = FileMenuPanel.bufferIndex; if(index > -1){element2dBuffer.splice(index,11); FileMenuPanel = ""; FileMenuItem1 = ""; FileMenuItem2 = ""; FileMenuItem3 = ""; FileMenuItem4 = "";  FileMenuItem5 = ""; FileMenuItem6 = ""; FileMenuItem7 = ""; FileMenuItem8 = "";   FileMenuItem9 = "";  FileMenuItem10 = ""; }
+				var index = element2dBuffer.indexOf(FileMenuPanel); if(index > -1){element2dBuffer.splice(index,11); FileMenuPanel = "";  }
 			}
 		}
-	}
+		else
+		{
+			ConfirmBoxB2.onClick = function() 
+			{	
+				var index = element2dBuffer.indexOf(ConfirmBoxBG); if(index > -1){element2dBuffer.splice(index,5); ConfirmBoxBG = "";}
+			}
+			ConfirmBoxB1.onClick = function() 
+			{	
+				ccbEndProgram();
+			}
+			
+		}
+	
 }
+
