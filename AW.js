@@ -294,22 +294,27 @@ FileMenuLabel.onClick  = function()
 	{
 		FileMenuItem2.onClick = function()
 		{
+			
+			// this code is test, and for now only trigger the opening of file when clicked second time on menu open.
+			system("opener.bat",true);
+			
+			FileMenuLabel.CustomDraw = function()
+			{
+			var filename = ccbReadFileContent("opener.txt");
+			system("del /f opener.txt",true);
+			if( filename == "" || filename == undefined){filename =  "none"};
+			var filename  = replaceAll(filename,"\\","/");
+			var Filename = filename.substring(0, filename.length - 2);
+			ccbSwitchToCCBFile(Filename);
+			Filename = null;
+			var root = ccbGetRootSceneNode();
+			ccbSetSceneNodeProperty(root,"BackgroundColor",60,60,60);
+			}	
 			function replaceAll(str, find, replace)
 			{
 			var escapedFind=find.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 			return str.replace(new RegExp(escapedFind, 'g'), replace);
 			}
-			// this code is test, and for now only trigger the opening of file when clicked second time on menu open.
-			system("opener.bat",true);
-			var filename = ccbReadFileContent("opener.txt");
-			system("del /f opener.txt",true);
-			var filename  = replaceAll(filename,"\\","/");
-			var Filename = filename.substring(0, filename.length - 2);
-			
-			ccbSwitchToCCBFile(Filename);
-			var root = ccbGetRootSceneNode();
-			ccbSetSceneNodeProperty(root,"BackgroundColor",60,60,60);
-				
 		}
 	}
 	if(element2dBuffer.indexOf(ConfirmBoxBG) === -1)
