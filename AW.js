@@ -315,12 +315,11 @@ FileMenuLabel.onClick  = function()
 			system("del /f opener.txt",true);
 			var filename  = replaceAll(filename,"\\","/");
 			var Filename = filename.substring(0, filename.length - 2);
-			Menubar.CustomDraw = function()
-			{
-				ccbSwitchToCCBFile(Filename);
-				var root = ccbGetRootSceneNode();
-				ccbSetSceneNodeProperty(root,"BackgroundColor",60,60,60);
-			}
+			
+			ccbSwitchToCCBFile(Filename);
+			var root = ccbGetRootSceneNode();
+			ccbSetSceneNodeProperty(root,"BackgroundColor",60,60,60);
+			
 		
 			
 		}
