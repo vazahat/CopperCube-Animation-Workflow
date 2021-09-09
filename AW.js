@@ -215,6 +215,10 @@ element2d.prototype.draw = function()
 	{
 		ccbDrawTextureRectangleWithAlpha(this.imageSource,this.X,this.Y,this.X+this.width,this.Y+this.height);
 	}
+	if(this.type == "none")
+	{
+
+	}
 	return;
 }
 
@@ -265,43 +269,29 @@ var versionInfo = new element2d({type: "label",text: "V 0.1", X:scrX-100, Y: scr
 // creating a menu item
 var FileMenuLabel = new element2d({status:"Open File menu",type: "panelWithText", text: "File", X: 20, Y: 0, width: 30, height: 32}); // Define menu label first
 //setting all the items in the menu and menu panel to undefine.
-var FileMenuPanel = undefined;
-var FileMenuItem1 = undefined;
-var FileMenuItem2 = undefined;
-var FileMenuItem3 = undefined;
-var FileMenuItem4 = undefined;
-var FileMenuItem5 = undefined;
-var FileMenuItem6 = undefined;
-var FileMenuItem7 = undefined;
-var FileMenuItem8 = undefined;
-var FileMenuItem9 = undefined;
-var FileMenuItem10 = undefined;
-var ConfirmBoxBG = undefined;
-var ConfirmBoxL = undefined;
-var ConfirmBoxB1 = undefined;
-var ConfirmBoxB2 = undefined;
-var ConfirmBoxB3 = undefined;
-var ConfirmBoxB4 = undefined;
-var ConfirmBoxI = undefined;
-var Whatever = undefined;
+var FileMenuPanel = "";
+var ConfirmBoxBG = "";
 
 FileMenuLabel.onClick  = function()
 {
-	
-		if( FileMenuPanel == undefined){ FileMenuPanel = new element2d({Shadow: true, panelColor: primaryPanelCol, onHoverColor: primaryPanelCol, X: 20, Y: 33, width: 300, height: 500});}
-		if( FileMenuItem1 == undefined){ FileMenuItem1 = new element2d({ type: "panelWithText", text: "New",X: (FileMenuPanel.width/2)-FileMenuPanel.X, Y: FileMenuPanel.height/10, width: (FileMenuPanel.width/2)-FileMenuPanel.X+10,height: 32});}
+	if(element2dBuffer.indexOf(FileMenuPanel) === -1) 
+	{ 
+		FileMenuPanel = new element2d({Shadow: true, panelColor: primaryPanelCol, onHoverColor: primaryPanelCol, X: 20, Y: 33, width: 300, height: 500});
+		FileMenuItem1 = new element2d({ type: "panelWithText", text: "New",X: (FileMenuPanel.width/2)-FileMenuPanel.X, Y: FileMenuPanel.height/10, width: (FileMenuPanel.width/2)-FileMenuPanel.X+10,height: 32});
 		//create only first item with manual values and then simply use it to allign all other menu items
 		var itemindex = FileMenuItem1.bufferIndex;
-		if( FileMenuItem2 == undefined){ FileMenuItem2 = new element2d({ type: "panelWithText", text: "Open", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;}
-		if( FileMenuItem3 == undefined){ FileMenuItem3 = new element2d({ type: "panelWithText", text: "Save", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;}
-		if( FileMenuItem4 == undefined){ FileMenuItem4 = new element2d({ type: "panelWithText", text: "Save as", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;}
-		if( FileMenuItem5 == undefined){ FileMenuItem5 = new element2d({ type: "panelWithText", text: "Import ccb model", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;}
-		if( FileMenuItem6 == undefined){ FileMenuItem6 = new element2d({ type: "panelWithText", text: "Export action", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;}
-		if( FileMenuItem7 == undefined){ FileMenuItem7 = new element2d({ type: "panelWithText", text: "Whatever", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;}
-		if( FileMenuItem8 == undefined){ FileMenuItem8 = new element2d({ type: "panelWithText", text: "test item", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;}
-		if( FileMenuItem9 == undefined){ FileMenuItem9 = new element2d({ type: "panelWithText", text: "About", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;}
-		if( FileMenuItem10 == undefined){ FileMenuItem10 = new element2d({ type: "panelWithText", text: "Quit", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;}
-
+		FileMenuItem2 = new element2d({ type: "panelWithText", text: "Open", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
+		FileMenuItem3 = new element2d({ type: "panelWithText", text: "Save", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
+		FileMenuItem4 = new element2d({ type: "panelWithText", text: "Save as", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
+		FileMenuItem5 = new element2d({ type: "panelWithText", text: "Import ccb model", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
+		FileMenuItem6 = new element2d({ type: "panelWithText", text: "Export action", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
+		FileMenuItem7 = new element2d({ type: "panelWithText", text: "Whatever", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
+		FileMenuItem8 = new element2d({ type: "panelWithText", text: "test item", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
+		FileMenuItem9 = new element2d({ type: "panelWithText", text: "About", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
+		FileMenuItem10 = new element2d({ type: "panelWithText", text: "Quit", X: element2dBuffer[itemindex].X, Y: element2dBuffer[itemindex].Y+element2dBuffer[itemindex].height+element2dBuffer[itemindex].fontSize, width: element2dBuffer[itemindex].width, height: 32});itemindex += 1;
+	}
+	if(element2dBuffer.indexOf(FileMenuItem2) !== -1)
+	{
 		FileMenuItem2.onClick = function()
 		{
 			function replaceAll(str, find, replace)
@@ -319,26 +309,22 @@ FileMenuLabel.onClick  = function()
 			ccbSwitchToCCBFile(Filename);
 			var root = ccbGetRootSceneNode();
 			ccbSetSceneNodeProperty(root,"BackgroundColor",60,60,60);
-			
-		
-			
+				
 		}
+	}
+	if(element2dBuffer.indexOf(ConfirmBoxBG) === -1)
+	{
 		FileMenuItem10.onClick = function()
 		{
-			if(ConfirmBoxBG == undefined){ConfirmBoxBG = new element2d({type: "panel", Shadow: true, panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: scrX/2-scrX/4,width: scrX/2+scrX/4, Y:scrY/2-scrY/4,height:scrY/4})}
-			if(ConfirmBoxL == undefined){ConfirmBoxL = new element2d({type: "label", text: "Are you sure you want to Quit the application this is just a test to check the gradient",panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: scrX/2-scrX/4,width: scrX/2+scrX/4, Y:scrY/2-scrY/4,height:scrY/4})}
-			if(ConfirmBoxI == undefined){ConfirmBoxI = new element2d({type: "image", panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: (scrX/2-scrX/4), Y:ConfirmBoxBG.height+100, width: 100, height: 100})}
-			if(ConfirmBoxB1 == undefined){ConfirmBoxB1 = new element2d({type: "panelWithText",text: "Yes",X: ConfirmBoxBG.X+200, Y: ConfirmBoxBG.Y +200 ,height: 30})};
+			ConfirmBoxBG = new element2d({type: "panel", Shadow: true, panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: scrX/2-scrX/4,width: scrX/2+scrX/4, Y:scrY/2-scrY/4,height:scrY/4})
+			ConfirmBoxL = new element2d({type: "label", text: "Are you sure you want to Quit the application this is just a test to check the gradient",panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: scrX/2-scrX/4,width: scrX/2+scrX/4, Y:scrY/2-scrY/4,height:scrY/4})
+			ConfirmBoxI = new element2d({type: "image", panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: (scrX/2-scrX/4), Y:ConfirmBoxBG.height+100, width: 100, height: 100})
+			ConfirmBoxB1 = new element2d({type: "panelWithText",text: "Yes",X: ConfirmBoxBG.X+200, Y: ConfirmBoxBG.Y +200 ,height: 30});
+			var index = FileMenuPanel.bufferIndex; if(index > -1){element2dBuffer.splice(index,11); FileMenuPanel = new element2d({type:"none"}); FileMenuItem1 = ""; FileMenuItem2 = ""; FileMenuItem3 =""; FileMenuItem4 ="";  FileMenuItem5 = ""; FileMenuItem6 = ""; FileMenuItem7 = ""; FileMenuItem8 = "";   FileMenuItem9 = "";  FileMenuItem10 = ""; }
 		}
-		
-
-		FileMenuItem7.onClick = function()
-		{
-			if(Whatever == undefined){Whatever = new element2d({ type: "panel", text: "this is a simple demo still in testing", X: 500, Y:200, width: 600,height:500,panelColor:  primaryPanelCol, onHoverColor: testCol })};
-			//if(alertBoX1 == undefined){alertBoX1 = new element2d({type: "image", text: "This tool has been created by Vazahat pathan",panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: scrX/2-scrX/4,width: scrX/2+scrX/4, Y:scrY/2-scrY/4,height:scrY/4})}	
-		}
-	
 	}
+}
+
 		
 		
 // Destroy and recreaated menu panels on click
@@ -346,11 +332,14 @@ FileMenuLabel.onOutsideClick = function()
 {	// destroy the panel and all menu items when clicked outside the clickable elements.
 	//for testing purpose we are not recreating the last menu item "Quit" it will be created only once and then destroyed for forever.
 	// undefine all the elements which should be recreated on menu recreation//
-	if(!FileMenuPanel.isMouseOver())
+	
 	{
-		
+		if(element2dBuffer.indexOf(FileMenuPanel) !== -1) 
 		{
-			var index = FileMenuPanel.bufferIndex; if(index > -1){element2dBuffer.splice(index,11); FileMenuPanel = undefined; FileMenuItem1 = undefined; FileMenuItem2 = undefined; FileMenuItem3 = undefined; FileMenuItem4 = undefined;  FileMenuItem5 = undefined; FileMenuItem6 = undefined; FileMenuItem7 = undefined; FileMenuItem8 = undefined;   FileMenuItem9 = undefined;  FileMenuItem10 = undefined; }
+			FileMenuPanel.onOutsideClick = function()
+			{
+				var index = FileMenuPanel.bufferIndex; if(index > -1){element2dBuffer.splice(index,11); FileMenuPanel = ""; FileMenuItem1 = ""; FileMenuItem2 = ""; FileMenuItem3 = ""; FileMenuItem4 = "";  FileMenuItem5 = ""; FileMenuItem6 = ""; FileMenuItem7 = ""; FileMenuItem8 = "";   FileMenuItem9 = "";  FileMenuItem10 = ""; }
+			}
 		}
 	}
 }
