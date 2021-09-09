@@ -309,7 +309,7 @@ FileMenuLabel.onClick  = function()
 			var escapedFind=find.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 			return str.replace(new RegExp(escapedFind, 'g'), replace);
 			}
-
+			// this code is test, and for now only trigger the opening of file when clicked second time on menu open.
 			system("opener.bat",true);
 			var filename = ccbReadFileContent("opener.txt");
 			system("del /f opener.txt",true);
