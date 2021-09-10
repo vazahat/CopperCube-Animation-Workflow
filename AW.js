@@ -294,7 +294,7 @@ FileMenuLabel.onClick  = function()
 	{
 		FileMenuItem2.onClick = function()
 		{
-			ccbWriteFileContent("opener2.bat","<# :\n" +
+			ccbWriteFileContent("opener.bat","<# :\n" +
 			"\n"+
 			"\n"+
 			"@echo off\n"+
@@ -310,14 +310,29 @@ FileMenuLabel.onClick  = function()
 			"Add-Type -AssemblyName System.Windows.Forms\n"+
 			"$f = new-object Windows.Forms.OpenFileDialog\n"+
 			"$f.InitialDirectory = pwd\n"+
-			"$f.Filter = \"Text Files (*.vaz)|*.vaz|All Files (*.*)|*.*\"\n"+
+			"$f.Filter = \"CC Animation Files (*.cca)|*.cca|All Files (*.*)|*.*\"\n"+
 			"$f.ShowHelp = $true\n"+
-			"$f.Multiselect = $true\n"+
+			"$f.Multiselect = $false\n"+
 			"[void]$f.ShowDialog()\n"+
 			"if ($f.Multiselect) { $f.FileNames } else { $f.FileName }");
+			//focus back to app
+			ccbWriteFileContent("focus.bat","\n"+
+			"@if (@a==@a) @end /*\n"+
+			"		cscript //E:JScript //nologo \"%~f0\" %*\n"+
+			"		exit /b \n"+
+			"*/\n"+
+			"\n"+
+			"// --- JScript codes below this line ----\n"+
+			"\n"+
+			"var WshShell = WScript.CreateObject(\"WScript.Shell\");\n"+
+			"\n"+
+			"WshShell.AppActivate(\"CC Animation Workflow v 0.1\");\n"+
+			"WshShell.SendKeys(\"~\");\n"+
+			"WScript.Quit(0);")
 
 			// this code is test, and for now only trigger the opening of file when clicked second time on menu open.
-			system("opener2.bat && del /f opener2.bat",true);
+			system("opener.bat && focus.bat && del /f opener.bat && del /f focus.bat",true);
+			
 			
 			FileMenuLabel.CustomDraw = function()
 			{
