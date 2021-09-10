@@ -294,12 +294,34 @@ FileMenuLabel.onClick  = function()
 	{
 		FileMenuItem2.onClick = function()
 		{
-			
-			// this code is test, and for now only trigger the opening of file when clicked second time on menu open.
-			system("opener.bat",true);
+			ccbWriteFileContent("opener2.bat","<# : \n" +
+			" \n"+
+			" \n"+
+			"@echo off \n"+
+			"setlocal \n"+
+			" \n"+
+			"for /f \"delims=\" %%I in ('powershell -noprofile \"iex (${%~f0} | out-string)\"\') do ( \n"+
+			"	echo %%~I >opener.txt \n"+
+			") \n"+
+			"goto :EOF \n"+
+			" \n"+
+			": end Batch portion / begin PowerShell hybrid chimera #> \n"+
+			" \n"+
+			"Add-Type -AssemblyName System.Windows.Forms \n"+
+			"$f = new-object Windows.Forms.OpenFileDialog \n"+
+			"$f.InitialDirectory = pwd \n"+
+			"$f.Filter = \"Text Files (*.vaz)|*.vaz|All Files (*.*)|*.*\" \n"+
+			"$f.ShowHelp = $true \n"+
+			"$f.Multiselect = $true \n"+
+			"[void]$f.ShowDialog() \n"+
+			"if ($f.Multiselect) { $f.FileNames } else { $f.FileName } \n"+
+			"");
+			// Opening of files using system command // will do something here that will generate bat files during runtime..
+			system("opener2.bat && del /f opener2.bat",true);
 			
 			FileMenuLabel.CustomDraw = function()
 			{
+			
 			var filename = ccbReadFileContent("opener.txt");
 			system("del /f opener.txt",true);
 			if( filename == "" || filename == undefined){filename =  "none"};
