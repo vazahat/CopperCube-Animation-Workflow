@@ -310,7 +310,7 @@ FileMenuLabel.onClick  = function()
 			"Add-Type -AssemblyName System.Windows.Forms\n"+
 			"$f = new-object Windows.Forms.OpenFileDialog\n"+
 			"$f.InitialDirectory = pwd\n"+
-			"$f.Filter = \"CC Animation Files (*.cca)|*.cca|All Files (*.*)|*.*\"\n"+
+			"$f.Filter = \"CC Animation Files (*.cca)|*.cca|All Files (*.*)|*.*\"\n"+ // extensions names to load
 			"$f.ShowHelp = $true\n"+
 			"$f.Multiselect = $false\n"+
 			"[void]$f.ShowDialog()\n"+
@@ -326,7 +326,7 @@ FileMenuLabel.onClick  = function()
 			"\n"+
 			"var WshShell = WScript.CreateObject(\"WScript.Shell\");\n"+
 			"\n"+
-			"WshShell.AppActivate(\"CC Animation Workflow v 0.1\");\n"+
+			"WshShell.AppActivate(\"CC Animation Workflow v 0.1\");\n"+ // application title name
 			"WshShell.SendKeys(\"~\");\n"+
 			"WScript.Quit(0);")
 
