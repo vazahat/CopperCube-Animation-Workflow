@@ -44,6 +44,9 @@ var secondaryBtnCol = color(86,128,194,255);
 var testColor = color(30,30,30,255);
 var shadowCol = color(10,10,10,150);
 var selectionCol   = color(255,255,255,5);
+var titlebarCol = color(30,30,30,255);
+var warningCol = color(200,200,0,255) ;
+var dangerCol = color(255,0,0,150);
 
 
 // main 
@@ -190,7 +193,7 @@ element2d.prototype.draw = function()
 		}
 		if (this.ShadowPosition == "bottom" || this.ShadowPosition == "bottomleft")
 		{
-			ccbDrawColoredRectangle(this.ShadowColor,X,Y+height,width+this.ShadowSize,Y+height+this.ShadowSize);
+			ccbDrawColoredRectangle(this.ShadowColor,X-this.ShadowSize,Y+height,width+this.ShadowSize,Y+height+this.ShadowSize);
 		}
 	}
 	
@@ -358,10 +361,12 @@ FileMenuLabel.onClick  = function()
 		FileMenuItem10.onClick = function()
 		{
 			ConfirmBoxBG = new element2d({type: "panel", Shadow: true, panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: scrX/2-scrX/4,width: scrX/2+scrX/4, Y:scrY/2-scrY/4,height:scrY/4})
-			ConfirmBoxL = new element2d({type: "label", text: "Are you sure you want to Quit the application this is just a test to check the gradient",panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: scrX/2-scrX/4,width: scrX/2+scrX/4, Y:scrY/2-scrY/4,height:scrY/4})
+			ConfirmBoxL = new element2d({type: "label", text: "Are you sure you want to Quit the application this is just a test to check the gradient",panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: ConfirmBoxBG.X+10,width: ConfirmBoxBG.width, Y:ConfirmBoxBG.Y+30,height:ConfirmBoxBG.height})
 			ConfirmBoxI = new element2d({type: "image", panelColor:  primaryPanelCol, onHoverColor:  primaryPanelCol,  X: (scrX/2-scrX/4), Y:ConfirmBoxBG.height+100, width: 100, height: 100})
 			ConfirmBoxB1 = new element2d({type: "panelWithText",text: "Yes",X: ConfirmBoxBG.X+200, Y: ConfirmBoxBG.Y +200 ,height: 30});
 			ConfirmBoxB2 = new element2d({type: "panelWithText",text: "Cancel",X: ConfirmBoxBG.X+400, Y: ConfirmBoxBG.Y +200,  height: 30});
+			ConfirmBoxTitlebar = new element2d({type: "panelWithText", text: "Quit?", Shadow: true, panelColor: titlebarCol, onHoverColor:  titlebarCol, fontSize:16,  X: ConfirmBoxBG.X+3, width: ConfirmBoxBG.width, Y:ConfirmBoxBG.Y-30,height:30})
+			ConfirmBoxX = new element2d({type: "panelWithText",text: "X", onHoverColor:dangerCol, X: ConfirmBoxBG.width-25,width:ConfirmBoxBG.width-15, Y: ConfirmBoxBG.Y-25 ,height: 25});
 			var index = element2dBuffer.indexOf(FileMenuPanel); if(index > -1){element2dBuffer.splice(index,11); FileMenuPanel = ""; }
 		}
 	}
@@ -388,13 +393,16 @@ FileMenuLabel.onOutsideClick = function()
 		{
 			ConfirmBoxB2.onClick = function() 
 			{	
-				var index = element2dBuffer.indexOf(ConfirmBoxBG); if(index > -1){element2dBuffer.splice(index,5); ConfirmBoxBG = "";}
+				var index = element2dBuffer.indexOf(ConfirmBoxBG); if(index > -1){element2dBuffer.splice(index,7); ConfirmBoxBG = "";}
 			}
 			ConfirmBoxB1.onClick = function() 
 			{	
 				ccbEndProgram();
 			}
-			
+			ConfirmBoxX.onClick = function() 
+			{	
+				var index = element2dBuffer.indexOf(ConfirmBoxBG); if(index > -1){element2dBuffer.splice(index,7); ConfirmBoxBG = "";}
+			}
 		}
 	
 }
